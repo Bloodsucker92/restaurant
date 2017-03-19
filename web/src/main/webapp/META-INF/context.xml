@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource name="jdbc/RestaurantDB"
+              author="Container"
+              type="javax.sql.DataSource"
+              maxActive="32"
+              maxIdle="8"
+              maxWait="10000"
+              username="root"
+              password="hiGhway92"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/restaurant"
+    />
+</Context>
