@@ -6,6 +6,7 @@ import utils.ConfigurationManager;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
@@ -15,7 +16,7 @@ public class RegisterCommand extends ActionCommand{
 
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
 
         String page = null;
         String loginReg = request.getParameter("loginReg");

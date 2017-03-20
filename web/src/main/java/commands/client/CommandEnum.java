@@ -27,6 +27,12 @@ LOGOUT {
   {
    this.command = new AddCourseCommand();
   }
+ },
+
+ SETLANGUAGE {
+  {
+   this.command = new SetLanguageCommand();
+  }
  }
  ;
 

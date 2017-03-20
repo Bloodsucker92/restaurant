@@ -6,6 +6,7 @@ import utils.ConfigurationManager;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ public class AddCourseCommand extends ActionCommand {
     private static CourseLogic courseLogic = CourseLogic.getInstance();
 
     @Override
-    public String execute(HttpServletRequest request) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         String page = null;
         String courseName = request.getParameter("courseName");
         String coursePrice = request.getParameter("coursePrice");

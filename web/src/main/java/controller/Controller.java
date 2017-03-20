@@ -2,6 +2,7 @@ package controller;
 
 import commands.ActionCommand;
 import commands.factory.ActionFactory;
+import utils.ConfigurationManager;
 
 import java.io.IOException;
 
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
+
+
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     processRequest(request, response);
   }
@@ -33,13 +36,17 @@ public class Controller extends HttpServlet {
      * вызов реализованного метода execute() и передача параметров
      * классу-обработчику конкретной команды
      */
-    page = command.execute(request);
+    page = command.execute(request, response);
     // метод возвращает страницу ответа
     if (page != null) {
       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
       // вызов страницы ответа на запрос
       dispatcher.forward(request, response);
     } else {
+      page = ConfigurationManager.getProperty("path.page.index");
+      RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
+      // вызов страницы ответа на запрос
+      dispatcher.forward(request, response);
       // установка страницы c cообщением об ошибке
 //      page = ConfigurationManager.getProperty("path.page.index");
 //      request.getSession().setAttribute("nullPage", MessageManager.getProperty("message.nullpage"));

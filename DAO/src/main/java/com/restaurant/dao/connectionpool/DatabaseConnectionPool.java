@@ -16,7 +16,6 @@ public final class DatabaseConnectionPool {
 
     public static Connection getConnection() throws SQLException, NamingException {
         Context initCtx = new InitialContext();
-//        Context envCtx = (Context) initCtx.lookup();
         DataSource ds = (DataSource) initCtx.lookup("java:comp/env/jdbc/RestaurantDB");
         return ds.getConnection();
     }

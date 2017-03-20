@@ -8,6 +8,7 @@ import utils.ErrorManager;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -18,7 +19,7 @@ public class LoginCommand extends ActionCommand {
 
 
   @Override
-  public String execute(HttpServletRequest request) {
+  public String execute(HttpServletRequest request, HttpServletResponse response) {
     String page = null;
     // извлечение из запроса логина и пароля
     String login = request.getParameter(PARAM_NAME_LOGIN);

@@ -1,14 +1,19 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: dzianismitrakhovich
-  Date: 20.02.17
-  Time: 12:05
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
-    <title>Course added</title>
+    <%--Check the session scope to set the proper locale--%>
+    <fmt:setBundle basename="locale_us" />
+    <c:if test="${sessionScope.locale == 'locale_us' or empty sessionScope.locale}" >
+        <fmt:setBundle basename="locale_us" />
+    </c:if>
+    <c:if test="${sessionScope.locale == 'locale_ru'}">
+        <fmt:setBundle basename="locale_ru" />
+    </c:if>
+
+    <title><fmt:message key="courseadded.title"/></title>
+
     <link rel="stylesheet" href="css/logFormStyles.css"/>
 </head>
 <body>
@@ -16,10 +21,12 @@
 
 <form name="userForm" method="GET" action="controller">
     <input type="hidden" name="command" value="showcourses" />
-    <b>Congratulations!</b><br>
-    <span style="color:#58D3F7">Your course ${courseName} (price: ${coursePrice}) was successfully added to our menu!<br></span>
-    Click here to see the renewed menu:
-    <button type="submit">Show all courses</button>
+    <b><fmt:message key="courseadded.congrats"/> </b><br>
+    <span style="color:#58D3F7"><fmt:message key="courseadded.course"/>
+     ${courseName} (<fmt:message key="courseadded.price"/> ${coursePrice})
+        <fmt:message key="courseadded.added"/><br></span>
+    <fmt:message key="courseadded.newmenu"/>
+    <button type="submit"><fmt:message key="courseadded.showcoursesbutton"/> </button>
 </form>
 </div>
 </body>
