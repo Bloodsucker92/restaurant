@@ -6,8 +6,7 @@ public class Course {
     private int coursePrice;
     private String courseType;
 
-    public Course(int id, String courseName, int coursePrice, String courseType) {
-        this.id = id;
+    public Course(String courseName, int coursePrice, String courseType) {
         this.courseName = courseName;
         this.coursePrice = coursePrice;
         this.courseType = courseType;

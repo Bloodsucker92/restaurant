@@ -16,6 +16,7 @@ import java.sql.SQLException;
 public class LoginCommand extends ActionCommand {
   private static final String PARAM_NAME_LOGIN = "login";
   private static final String PARAM_NAME_PASSWORD = "password";
+  private LoginLogic loginLogic = LoginLogic.getInstance();
 
 
   @Override
@@ -27,14 +28,14 @@ public class LoginCommand extends ActionCommand {
     // проверка логина и пароля
     try {
       // check if user exists in a database
-      if (LoginLogic.ifUserExists(login, pass)){
-        if (LoginLogic.checkAdminLogin(login, pass)) {
+      if (loginLogic.ifUserExists(login, pass)){
+        if (loginLogic.checkAdminLogin(login, pass)) {
           request.setAttribute("user", login);
           HttpSession session = request.getSession(true);
           session.setAttribute("userType", ClientType.ADMINISTRATOR);
           // определение пути к main.jsp
           page = ConfigurationManager.getProperty("path.page.main");
-        } else if (LoginLogic.checkUserLogin(login, pass)) {
+        } else if (loginLogic.checkUserLogin(login, pass)) {
           request.setAttribute("user", login);
           HttpSession session = request.getSession(true);
           session.setAttribute("userType", ClientType.USER);

@@ -24,17 +24,17 @@ public class LoginLogic {
     return instance;
   }
 
-  public static boolean ifUserExists (String enterLogin, String enterPassword) throws SQLException, IOException, ClassNotFoundException, NamingException {
+  public boolean ifUserExists (String enterLogin, String enterPassword) throws SQLException, IOException, ClassNotFoundException, NamingException {
     boolean userExists;
-    if (userDAO.getUser(enterLogin, enterPassword).getUsername()==null
-            && userDAO.getUser(enterLogin, enterPassword).getUserpassword() == null){
+    if (userDAO.getUser(enterLogin, enterPassword) == null){
       userExists = false;
+    } else {
+      userExists = true;
     }
-    else userExists = true;
     return userExists;
   }
 
-  public static void getUserDaoInstance (String enterLogin, String enterPass) throws SQLException, IOException, ClassNotFoundException, NamingException {
+  public void getUserDaoInstance (String enterLogin, String enterPass) throws SQLException, IOException, ClassNotFoundException, NamingException {
 
   ENTER_LOGIN = userDAO.getUser(enterLogin, enterPass).getUsername();
   ENTER_PASSWORD = userDAO.getUser(enterLogin, enterPass).getUserpassword();
@@ -42,13 +42,13 @@ public class LoginLogic {
   }
 
 
-  public static boolean checkAdminLogin(String enterLogin, String enterPass) throws SQLException, IOException, ClassNotFoundException, NamingException {
+  public boolean checkAdminLogin(String enterLogin, String enterPass) throws SQLException, IOException, ClassNotFoundException, NamingException {
     getUserDaoInstance(enterLogin, enterPass);
 
     return ENTER_LOGIN.equals(enterLogin) && ENTER_PASSWORD.equals(enterPass) && ENTER_ACCESS.equals("a");
   }
 
-  public static boolean checkUserLogin(String enterLogin, String enterPass) throws SQLException, IOException, ClassNotFoundException, NamingException {
+  public boolean checkUserLogin(String enterLogin, String enterPass) throws SQLException, IOException, ClassNotFoundException, NamingException {
     getUserDaoInstance(enterLogin, enterPass);
 
     return ENTER_LOGIN.equals(enterLogin) && ENTER_PASSWORD.equals(enterPass) && ENTER_ACCESS.equals("u");

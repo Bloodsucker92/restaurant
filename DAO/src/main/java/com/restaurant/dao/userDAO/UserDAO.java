@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 
 public interface UserDAO {
+
     User getUser(String login, String password) throws SQLException, NamingException;
 
     User addUser(String username, String userpassword) throws SQLException, NamingException;

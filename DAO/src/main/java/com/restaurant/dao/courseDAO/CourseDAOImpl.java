@@ -1,8 +1,8 @@
 package com.restaurant.dao.courseDAO;
 
 import com.restaurant.dao.beans.Course;
-import com.restaurant.dao.connectionpool.DatabaseConnectionPool;
-import com.restaurant.dao.userDAO.UserDAOImpl;
+import com.restaurant.dao.connectionpool.ConnectionPool;
+import com.restaurant.dao.connectionpool.MysqlConnectionPool;
 
 import javax.naming.NamingException;
 import java.io.IOException;
@@ -15,17 +15,27 @@ import java.util.List;
 
 public class CourseDAOImpl implements CourseDAO{
 
-    Connection connection = null;
     private static CourseDAOImpl instance;
 
-    private CourseDAOImpl() throws ClassNotFoundException, SQLException, IOException{
 
+    private ConnectionPool connectionPool;
+    private final String ADD_COURSE_QUERY = "INSERT IGNORE INTO restaurant.course " +
+            "(course_name, course_price, course_category_idCourse_category) VALUES (?, ?, ?);";
+    private final String GET_COURSE_CATEGORY_ID_QUERY = "SELECT idCourse_category " +
+            "FROM course_category WHERE course_type=?;";
+    private final String SHOW_ALL_COURSES_QUERY = "SELECT course_name, course_price, " +
+            "course_type FROM Course INNER JOIN \n" +
+            "Course_category ON Course.Course_category_idCourse_category" +
+            " = Course_category.idCourse_category;";
+
+    public CourseDAOImpl(ConnectionPool connectionPool) throws ClassNotFoundException, SQLException, IOException{
+        setConnectionPool(connectionPool);
     }
 
     public static CourseDAOImpl getInstance() {
         try {
             if (instance == null) {
-                instance = new CourseDAOImpl();
+                instance = new CourseDAOImpl(MysqlConnectionPool.getInstance());
             }
         }
         catch (ClassNotFoundException | SQLException | IOException e){
@@ -34,30 +44,31 @@ public class CourseDAOImpl implements CourseDAO{
         return instance;
     }
 
+    public void setConnectionPool(ConnectionPool connectionPool) {
+        this.connectionPool = connectionPool;
+    }
+
     public Course addCourse(String courseName, int coursePrice, String courseType) throws SQLException, NamingException {
+        Connection connection = connectionPool.getConnection();
         Course course = new Course();
-
         int courseCategoryId = getCourseCategoryId(courseType);
-        connection = DatabaseConnectionPool.getConnection();
-
-        PreparedStatement myStatement = connection.prepareStatement("INSERT IGNORE INTO restaurant.course (course_name, course_price, course_category_idCourse_category) VALUES (?, ?, ?);");
-        myStatement.setString(1, courseName);
-        myStatement.setInt(2, coursePrice);
-        myStatement.setInt(3, courseCategoryId);
-        myStatement.executeUpdate();
-
+        PreparedStatement statement = connection.prepareStatement(ADD_COURSE_QUERY);
+        statement.setString(1, courseName);
+        statement.setInt(2, coursePrice);
+        statement.setInt(3, courseCategoryId);
+        statement.executeUpdate();
         course.setCourseName(courseName);
         course.setCoursePrice(coursePrice);
-        myStatement.close();
+        statement.close();
         connection.close();
 
         return course;
     }
 
     public int getCourseCategoryId(String courseType) throws NamingException, SQLException {
+        Connection connection = connectionPool.getConnection();
         int courseTypeId = 0;
-        connection = DatabaseConnectionPool.getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT idCourse_category FROM course_category WHERE course_type=?;");
+        PreparedStatement statement = connection.prepareStatement(GET_COURSE_CATEGORY_ID_QUERY);
         statement.setString(1, courseType);
         ResultSet rst = statement.executeQuery();
 
@@ -72,22 +83,22 @@ public class CourseDAOImpl implements CourseDAO{
     }
 
     public ArrayList<Course> showAllCourses() throws SQLException, NamingException {
-
+        Connection connection = connectionPool.getConnection();
         List<Course> courseList = new ArrayList();
-        connection = DatabaseConnectionPool.getConnection();
-        PreparedStatement myStatement = connection.prepareStatement("SELECT course_name, course_price, course_type FROM Restaurant.Course INNER JOIN \n" +
-                "Restaurant.Course_category ON Restaurant.Course.Course_category_idCourse_category = Restaurant.Course_category.idCourse_category;");
-        ResultSet rst = myStatement.executeQuery();
+        PreparedStatement statement = connection.prepareStatement(SHOW_ALL_COURSES_QUERY);
+        ResultSet rst = statement.executeQuery();
+        Course course = null;
         while (rst.next()) {
-            Course course = new Course();
-            course.setCourseName(rst.getString("course_name"));
-            course.setCoursePrice(Integer.parseInt(rst.getString("course_price")));
-            course.setCourseType(rst.getString("course_type"));
+            course = new Course(
+                    rst.getString("course_name"),
+                    Integer.parseInt(rst.getString("course_price")),
+                    rst.getString("course_type")
+            );
             courseList.add(course);
 
         }
         rst.close();
-        myStatement.close();
+        statement.close();
         connection.close();
 
         return (ArrayList<Course>) courseList;
