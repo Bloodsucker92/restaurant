@@ -2,10 +2,12 @@ package utils;
 
 import java.util.ResourceBundle;
 
+/* Util class that contains method to retrieve the page paths from the config file*/
+
 public class ConfigurationManager {
+  // Reads the web/main/resources/config.properties file
   private final static ResourceBundle resourceBundle = ResourceBundle.getBundle("config");
 
-  // класс извлекает информацию из файла config. properties
   private ConfigurationManager() {
   }
 

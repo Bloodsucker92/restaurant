@@ -10,22 +10,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
+/*Defines logic for Register command*/
+
 public class RegisterCommand extends ActionCommand{
 
-    private static RegisterUserLogic registerUserLogic = RegisterUserLogic.getInstance();
+    private RegisterUserLogic registerUserLogic = RegisterUserLogic.getInstance();
+
+    public RegisterCommand() throws SQLException, NamingException {
+    }
 
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
 
         String page = null;
         String loginReg = request.getParameter("loginReg");
         String passwordReg = request.getParameter("passwordReg");
-        try {
-          registerUserLogic.registerUser(loginReg, passwordReg);
-        } catch (SQLException | NamingException e) {
-            errorManager.writeErrorToLog(RegisterCommand.class.getName(), e, true);
-        }
+        registerUserLogic.registerUser(loginReg, passwordReg);
         request.setAttribute("newUser", loginReg);
         HttpSession session = request.getSession(true);
         session.setAttribute("userType", ClientType.USER);

@@ -1,5 +1,7 @@
 package com.restaurant.dao.beans;
 
+/* A User POJO */
+
 public class User {
 
     private int id;

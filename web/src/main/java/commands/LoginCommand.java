@@ -4,7 +4,6 @@ package commands;
 import com.restaurant.logics.login.LoginLogic;
 import filter.ClientType;
 import utils.ConfigurationManager;
-import utils.ErrorManager;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,44 +12,46 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 
+/*Defines logic for Login command*/
+
 public class LoginCommand extends ActionCommand {
   private static final String PARAM_NAME_LOGIN = "login";
   private static final String PARAM_NAME_PASSWORD = "password";
   private LoginLogic loginLogic = LoginLogic.getInstance();
 
+  public LoginCommand() throws SQLException, NamingException {
+  }
+
 
   @Override
-  public String execute(HttpServletRequest request, HttpServletResponse response) {
+  public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
     String page = null;
-    // извлечение из запроса логина и пароля
+    // retrieving the login and password parameters from the request
     String login = request.getParameter(PARAM_NAME_LOGIN);
     String pass = request.getParameter(PARAM_NAME_PASSWORD);
-    // проверка логина и пароля
-    try {
+    // login and password check
       // check if user exists in a database
       if (loginLogic.ifUserExists(login, pass)){
         if (loginLogic.checkAdminLogin(login, pass)) {
           request.setAttribute("user", login);
           HttpSession session = request.getSession(true);
           session.setAttribute("userType", ClientType.ADMINISTRATOR);
-          // определение пути к main.jsp
+          // defining the path to the main.jsp (in case the user is admin)
           page = ConfigurationManager.getProperty("path.page.main");
         } else if (loginLogic.checkUserLogin(login, pass)) {
           request.setAttribute("user", login);
           HttpSession session = request.getSession(true);
           session.setAttribute("userType", ClientType.USER);
-          // определение пути к main.jsp
+          // defining the path to the user.jsp (in case the user is user)
           page = ConfigurationManager.getProperty("path.page.user");
       }
       }
       else {
+        // if the user is not registered provides a path to the register.jsp
         request.setAttribute("guest", true);
         request.getSession().setAttribute("userType", ClientType.GUEST);
         page = ConfigurationManager.getProperty("path.page.register");
       }
-    } catch (SQLException | NamingException | IOException | ClassNotFoundException e) {
-      errorManager.writeErrorToLog(LoginCommand.class.getName(), e, true);
-    }
       return page;
     }
   }

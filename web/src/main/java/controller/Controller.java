@@ -3,9 +3,12 @@ package controller;
 import commands.ActionCommand;
 import commands.factory.ActionFactory;
 import utils.ConfigurationManager;
+import utils.ExceptionManager;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
+import javax.naming.NamingException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,10 +16,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+/*The Front Controller class */
 
 @WebServlet("/controller")
 public class Controller extends HttpServlet {
+
+  private ExceptionManager exceptionManager = ExceptionManager.getInstance();
 
 
   protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -29,28 +34,28 @@ public class Controller extends HttpServlet {
 
   private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     String page = null;
-    // определение команды, пришедшей из JSP
+    // defining command obtained from the jsp
     ActionFactory client = new ActionFactory();
     ActionCommand command = client.defineCommand(request);
     /*
-     * вызов реализованного метода execute() и передача параметров
-     * классу-обработчику конкретной команды
+     * invoking the implemented execute() method and passing parameters to the certain
+     * command class
      */
-    page = command.execute(request, response);
-    // метод возвращает страницу ответа
+    try {
+      page = command.execute(request, response);
+    } catch (SQLException | NamingException e) {
+      exceptionManager.writeErrorToLog(Controller.class.getName(), e, true);
+    }
+    // returns the response page
     if (page != null) {
       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-      // вызов страницы ответа на запрос
+      // calling the page and providing the response to the user
       dispatcher.forward(request, response);
     } else {
       page = ConfigurationManager.getProperty("path.page.index");
       RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
-      // вызов страницы ответа на запрос
       dispatcher.forward(request, response);
-      // установка страницы c cообщением об ошибке
-//      page = ConfigurationManager.getProperty("path.page.index");
-//      request.getSession().setAttribute("nullPage", MessageManager.getProperty("message.nullpage"));
-//      response.sendRedirect(request.getContextPath() + page);
+
     }
   }
 }

@@ -5,7 +5,6 @@ import com.restaurant.dao.connectionpool.ConnectionPool;
 import com.restaurant.dao.connectionpool.MysqlConnectionPool;
 
 import javax.naming.NamingException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,13 +12,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/* Implements CRUD-methods for Course POJO */
+
 public class CourseDAOImpl implements CourseDAO{
 
     private static CourseDAOImpl instance;
 
 
     private ConnectionPool connectionPool;
-    private final String ADD_COURSE_QUERY = "INSERT IGNORE INTO restaurant.course " +
+    private final String ADD_COURSE_QUERY = "INSERT INTO course " +
             "(course_name, course_price, course_category_idCourse_category) VALUES (?, ?, ?);";
     private final String GET_COURSE_CATEGORY_ID_QUERY = "SELECT idCourse_category " +
             "FROM course_category WHERE course_type=?;";
@@ -28,19 +29,14 @@ public class CourseDAOImpl implements CourseDAO{
             "Course_category ON Course.Course_category_idCourse_category" +
             " = Course_category.idCourse_category;";
 
-    public CourseDAOImpl(ConnectionPool connectionPool) throws ClassNotFoundException, SQLException, IOException{
+    public CourseDAOImpl(ConnectionPool connectionPool) {
         setConnectionPool(connectionPool);
     }
 
-    public static CourseDAOImpl getInstance() {
-        try {
+    public static CourseDAOImpl getInstance() throws NamingException {
             if (instance == null) {
-                instance = new CourseDAOImpl(MysqlConnectionPool.getInstance());
+                    instance = new CourseDAOImpl(MysqlConnectionPool.getInstance());
             }
-        }
-        catch (ClassNotFoundException | SQLException | IOException e){
-            e.printStackTrace();
-        }
         return instance;
     }
 

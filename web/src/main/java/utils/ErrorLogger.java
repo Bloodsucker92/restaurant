@@ -3,6 +3,8 @@ package utils;
 
 import org.apache.log4j.Logger;
 
+/* Util class which provides the error logger to write errors to the log files using log4j*/
+
 public class ErrorLogger {
 
     private static ErrorLogger instance;

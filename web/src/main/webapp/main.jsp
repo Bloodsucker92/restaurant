@@ -15,7 +15,6 @@
 
 
 <body>
-
 <div class="container">
 <form name="userForm" method="GET" action="controller">
  <input type="hidden" name="command" value="showcourses" />
@@ -28,6 +27,11 @@
 <form action="addcourse.jsp">
  <input type="submit" value="<fmt:message key="main.addnewcourse"/>"/>
 </form>
+ <form name="showUsersForm" method="GET" action="controller">
+  <input type="hidden" name="command" value="showusers" />
+  <input type="submit" value="<fmt:message key="main.showusers"/>"/>
+ </form>
 <a href="controller?command=logout"><fmt:message key="main.logout"/> </a>
 </div>
+
 </body></html>

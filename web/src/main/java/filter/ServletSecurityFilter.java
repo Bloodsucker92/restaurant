@@ -13,11 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/* Defines logic of user's authentification */
+
 @WebFilter(urlPatterns = { "*.jsp"})
 public class ServletSecurityFilter implements Filter {
 
   public void destroy() {
   }
+
+  /*Checks the user type from the session. If the use type is null, then sets the GUEST type
+  * returns the path to the login page*/
 
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest req = (HttpServletRequest) request;

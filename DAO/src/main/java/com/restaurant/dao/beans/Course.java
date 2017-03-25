@@ -1,5 +1,7 @@
 package com.restaurant.dao.beans;
 
+/* A course POJO */
+
 public class Course {
     private int id;
     private String courseName;

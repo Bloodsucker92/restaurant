@@ -3,8 +3,14 @@ package com.restaurant.dao.userDAO;
 import com.restaurant.dao.beans.User;
 import com.restaurant.dao.connectionpool.ConnectionPool;
 import com.restaurant.dao.connectionpool.MysqlConnectionPool;
+
+import javax.naming.NamingException;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/* Implements methods for CRUD-operations with User POJO */
 
 public class UserDAOImpl implements UserDAO {
 
@@ -18,22 +24,19 @@ public class UserDAOImpl implements UserDAO {
 
     private final String ADD_USER_QUERY = "INSERT INTO user (username, password, access) VALUES (?, ?, ?);";
 
-    public UserDAOImpl(ConnectionPool connectionPool) throws SQLException, IOException {
+    private final String SHOW_USERS_QUERY = "SELECT username, password, access FROM user;";
+
+    private final String DELETE_USER_SQL = "DELETE FROM user WHERE username = ? and password = ?;";
+
+    public UserDAOImpl(ConnectionPool connectionPool) throws SQLException {
         setConnectionPool(connectionPool);
     }
 
-    public static UserDAOImpl getInstance() {
+    public static UserDAOImpl getInstance() throws NamingException, SQLException {
         if (instance == null) {
-            try {
                 instance = new UserDAOImpl(MysqlConnectionPool.getInstance());
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
-        return instance;
-    }
+        return instance;}
 
     @Override
     public User getUser(String username, String userpassword) throws SQLException {
@@ -68,6 +71,39 @@ public class UserDAOImpl implements UserDAO {
         connection.close();
         return user;
     }
+
+    @Override
+    public ArrayList<User> showUsers() throws SQLException, NamingException {
+        Connection connection = connectionPool.getConnection();
+        List<User> usersList = new ArrayList();
+        PreparedStatement statement = connection.prepareStatement(SHOW_USERS_QUERY);
+        ResultSet rst = statement.executeQuery();
+        while (rst.next()) {
+            User user = new User();
+            user.setUsername(rst.getString("username"));
+            user.setUserpassword(rst.getString("password"));
+            user.setAccess(rst.getString("access"));
+            usersList.add(user);
+        }
+        rst.close();
+        statement.close();
+        connection.close();
+
+        return (ArrayList<User>) usersList;
+    }
+
+    @Override
+    public boolean deleteUser(String username, String userpassword) throws SQLException, NamingException {
+        Connection connection = connectionPool.getConnection();
+        PreparedStatement statement = connection.prepareStatement(DELETE_USER_SQL);
+        statement.setString(1, username);
+        statement.setString(2, userpassword);
+        statement.executeUpdate();
+        statement.close();
+        connection.close();
+        return true;
+    }
+
 
     public void setConnectionPool(ConnectionPool connectionPool) {
         this.connectionPool = connectionPool;

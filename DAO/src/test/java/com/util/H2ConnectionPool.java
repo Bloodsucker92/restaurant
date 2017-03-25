@@ -7,35 +7,24 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
+/* Sets uo the connection pool for H2 database and creates the actual database with data*/
+
 public class H2ConnectionPool implements ConnectionPool {
     private static final String DB_DRIVER = H2DbConfigurationManager.getProperty("db.driver");
     private static final String DB_CONNECTION = H2DbConfigurationManager.getProperty("db.connection");
     private static final String DB_USER = H2DbConfigurationManager.getProperty("db.user");
     private static final String DB_PASSWORD = H2DbConfigurationManager.getProperty("db.password");
-    public static final String USER_TABLE_SQL = "CREATE TABLE `User` (\n" +
-            "  `idClient` INT NOT NULL AUTO_INCREMENT,\n" +
-            "  `username` VARCHAR(45) NULL,\n" +
-            "  `password` VARCHAR(45) NULL,\n" +
-            "  `access` VARCHAR(45) NULL,\n" +
-            "  PRIMARY KEY (`idClient`))";
-    public static final String COURSE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS `Course` (\n" +
-            "  `idProduct` INT UNSIGNED NOT NULL AUTO_INCREMENT,\n" +
-            "  `course_name` VARCHAR(45) NULL,\n" +
-            "  `course_price` VARCHAR(45) NULL,\n" +
-            "  `Course_category_idCourse_category` INT NOT NULL,\n" +
-            "  PRIMARY KEY (`idProduct`, `Course_category_idCourse_category`))";
-    public static final String COURSE_CATEGORY_TABLE_SQL = "CREATE TABLE IF NOT EXISTS `Course_category` (\n" +
-            "  `idCourse_category` INT NOT NULL AUTO_INCREMENT,\n" +
-            "  `course_type` VARCHAR(45) NULL,\n" +
-            "  PRIMARY KEY (`idCourse_category`))";
 
     private static H2ConnectionPool instance;
 
     private H2ConnectionPool() throws SQLException {
         try (Connection c = getConnection()) {
-            c.createStatement().execute(USER_TABLE_SQL);
-            c.createStatement().execute(COURSE_TABLE_SQL);
-            c.createStatement().execute(COURSE_CATEGORY_TABLE_SQL);
+            c.createStatement().execute(H2DbSQLManager.getProperty("CREATE_USER_TABLE_SQL"));
+            c.createStatement().execute(H2DbSQLManager.getProperty("CREATE_COURSE_CATEGORY_TABLE_SQL"));
+            c.createStatement().execute(H2DbSQLManager.getProperty("CREATE_COURSE_TABLE_SQL"));
+            c.createStatement().executeUpdate(H2DbSQLManager.getProperty("INSERT_INTO_COURSE_CATEGORY_TABLE_SQL"));
+            c.createStatement().executeUpdate(H2DbSQLManager.getProperty("INSERT_INTO_COURSE_TABLE_SQL"));
+            c.createStatement().execute(H2DbSQLManager.getProperty("INSERT_INTO_USER_TABLE_SQL"));
         }
     }
 

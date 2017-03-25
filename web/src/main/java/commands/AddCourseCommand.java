@@ -1,20 +1,24 @@
 package commands;
 
-import com.restaurant.dao.beans.Course;
 import com.restaurant.logics.courses.CourseLogic;
 import utils.ConfigurationManager;
+import utils.ExceptionManager;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+
+/* Defines logic for the AddCourse command*/
 
 public class AddCourseCommand extends ActionCommand {
 
-    private static CourseLogic courseLogic = CourseLogic.getInstance();
+    private ExceptionManager exceptionManager = ExceptionManager.getInstance();
+    private CourseLogic courseLogic = CourseLogic.getInstance();
+
+    public AddCourseCommand() throws SQLException, NamingException {
+    }
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
@@ -22,16 +26,15 @@ public class AddCourseCommand extends ActionCommand {
         String courseName = request.getParameter("courseName");
         String coursePrice = request.getParameter("coursePrice");
         String courseType = request.getParameter("dropDownList");
-
         try {
-
             courseLogic.addCourse(courseName, Integer.parseInt(coursePrice), courseType);
-            request.setAttribute("courseName", courseName);
+        } catch (SQLException | NamingException e) {
+            exceptionManager.writeErrorToLog(AddCourseCommand.class.getName(), e, true);
+        }
+        request.setAttribute("courseName", courseName);
             request.setAttribute("coursePrice", coursePrice);
             page = ConfigurationManager.getProperty("path.page.courseadded");
-        } catch (SQLException | NamingException e) {
-            errorManager.writeErrorToLog(ActionCommand.class.getName(), e, true);
-        }
+
 
         return page;
     }

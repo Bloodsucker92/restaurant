@@ -1,7 +1,10 @@
 package com.restaurant;
 
+import com.restaurant.dao.beans.Course;
 import com.restaurant.dao.beans.User;
 import com.restaurant.dao.connectionpool.ConnectionPool;
+import com.restaurant.dao.courseDAO.CourseDAO;
+import com.restaurant.dao.courseDAO.CourseDAOImpl;
 import com.restaurant.dao.userDAO.UserDAO;
 import com.restaurant.dao.userDAO.UserDAOImpl;
 import junit.framework.TestCase;
@@ -16,13 +19,20 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
+/* Uses Mockito-framework to test if the database connection is set up
+   and CRUD-methods of dao layer perform correctly
+ * */
+
+
 @RunWith(MockitoJUnitRunner.class)
-public class UserDaoTest extends TestCase {
+public class DaoTest extends TestCase {
     @Mock
     Connection mockConn;
     @Mock
@@ -49,6 +59,8 @@ public class UserDaoTest extends TestCase {
         };
     }
 
+
+
     @Test
     public void testGetUser() throws ClassNotFoundException, SQLException, NamingException, IOException {
         UserDAO dao = new UserDAOImpl(testConnectionPool);
@@ -64,4 +76,44 @@ public class UserDaoTest extends TestCase {
         assertNotNull(testUser.getUserpassword());
         assertNotNull(testUser.getAccess());
     }
+
+    @Test
+    public void testShowUsers () throws SQLException, IOException, ClassNotFoundException, NamingException {
+        UserDAO dao = new UserDAOImpl(testConnectionPool);
+        assertNotNull(dao.showUsers());
+    }
+
+    @Test
+    public void testDeleteUser () throws SQLException, IOException, ClassNotFoundException, NamingException {
+        UserDAO dao = new UserDAOImpl(testConnectionPool);
+        assertTrue(dao.deleteUser("test", "test22"));
+    }
+
+
+    @Test
+    public void testAddCourse() throws SQLException, IOException, ClassNotFoundException, NamingException {
+        CourseDAO courseDAO = new CourseDAOImpl(testConnectionPool);
+        Course testCourse = courseDAO.addCourse("test", 3, "test");
+        assertNotNull(testCourse);
+        assertNotNull(testCourse.getCourseName());
+        assertNotNull(testCourse.getCoursePrice());
+
+    }
+
+    @Test
+    public void testGetCourseCategoryId () throws SQLException, IOException, ClassNotFoundException, NamingException {
+        CourseDAOImpl courseDAO = new CourseDAOImpl(testConnectionPool);
+        int courseCategoryId = courseDAO.getCourseCategoryId("drink");
+        assertNotNull(courseCategoryId);
+    }
+
+    @Test
+    public void testShowAllCourses () throws SQLException, IOException, ClassNotFoundException, NamingException {
+        CourseDAO courseDAO = new CourseDAOImpl(testConnectionPool);
+        assertNotNull(courseDAO.showAllCourses());
+    }
+
+
+
+
 }
