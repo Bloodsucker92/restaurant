@@ -62,13 +62,13 @@ public class DaoTest extends TestCase {
 
 
     @Test
-    public void testGetUser() throws ClassNotFoundException, SQLException, NamingException, IOException {
+    public void testGetUser() throws SQLException, NamingException {
         UserDAO dao = new UserDAOImpl(testConnectionPool);
         assertNotNull(dao.getUser("test", "test"));
     }
 
     @Test
-    public void testAddUser() throws ClassNotFoundException, SQLException, NamingException, IOException {
+    public void testAddUser() throws SQLException, NamingException {
         UserDAO dao = new UserDAOImpl(testConnectionPool);
         User testUser = dao.addUser("test", "test");
         assertNotNull(testUser);
@@ -78,20 +78,20 @@ public class DaoTest extends TestCase {
     }
 
     @Test
-    public void testShowUsers () throws SQLException, IOException, ClassNotFoundException, NamingException {
+    public void testShowUsers () throws SQLException, NamingException {
         UserDAO dao = new UserDAOImpl(testConnectionPool);
         assertNotNull(dao.showUsers());
     }
 
     @Test
-    public void testDeleteUser () throws SQLException, IOException, ClassNotFoundException, NamingException {
+    public void testDeleteUser () throws SQLException, NamingException {
         UserDAO dao = new UserDAOImpl(testConnectionPool);
         assertTrue(dao.deleteUser("test", "test22"));
     }
 
 
     @Test
-    public void testAddCourse() throws SQLException, IOException, ClassNotFoundException, NamingException {
+    public void testAddCourse() throws SQLException, NamingException {
         CourseDAO courseDAO = new CourseDAOImpl(testConnectionPool);
         Course testCourse = courseDAO.addCourse("test", 3, "test");
         assertNotNull(testCourse);
@@ -101,14 +101,14 @@ public class DaoTest extends TestCase {
     }
 
     @Test
-    public void testGetCourseCategoryId () throws SQLException, IOException, ClassNotFoundException, NamingException {
+    public void testGetCourseCategoryId () throws SQLException, NamingException {
         CourseDAOImpl courseDAO = new CourseDAOImpl(testConnectionPool);
         int courseCategoryId = courseDAO.getCourseCategoryId("drink");
         assertNotNull(courseCategoryId);
     }
 
     @Test
-    public void testShowAllCourses () throws SQLException, IOException, ClassNotFoundException, NamingException {
+    public void testShowAllCourses () throws SQLException, NamingException {
         CourseDAO courseDAO = new CourseDAOImpl(testConnectionPool);
         assertNotNull(courseDAO.showAllCourses());
     }
