@@ -4,10 +4,11 @@
 <html>
 <head>
     <title>List of all the courses available</title>
+    <link rel="stylesheet" href="css/tableStyles.css"/>
 </head>
 <body>
 
-<table border="1">
+<table border="1" align="center">
     <tr>
         <th>COURSE</th>
         <th>PRICE</th>

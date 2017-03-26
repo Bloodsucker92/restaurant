@@ -14,9 +14,10 @@
     </c:if>
     <title><fmt:message key="deleteuser.title"/></title>
     <link rel="stylesheet" href="css/logFormStyles.css"/>
+    <link rel="stylesheet" href="css/tableStyles.css"/>
 </head>
 <body>
-<table border="1">
+<table border="1" align="center">
     <tr>
         <th>Username</th>
         <th>Password</th>
