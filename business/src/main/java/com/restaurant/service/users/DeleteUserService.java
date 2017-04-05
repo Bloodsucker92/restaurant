@@ -1,27 +1,26 @@
-package com.restaurant.logics.users;
+package com.restaurant.service.users;
 
 
 import com.restaurant.dao.userDAO.UserDAOImpl;
-import com.restaurant.logics.login.LoginLogic;
+import com.restaurant.service.login.LoginService;
 
 import javax.naming.NamingException;
-import java.io.IOException;
 import java.sql.SQLException;
 
 /* Provides service methods for deleting a certain user from the databse */
 
-public class DeleteUserLogic {
+public class DeleteUserService {
 
     private UserDAOImpl userDAO = UserDAOImpl.getInstance();
-    private static DeleteUserLogic instance;
-    private LoginLogic loginLogic = LoginLogic.getInstance();
+    private static DeleteUserService instance;
+    private LoginService loginService = LoginService.getInstance();
 
-    private DeleteUserLogic() throws SQLException, NamingException {
+    private DeleteUserService() throws SQLException, NamingException {
     }
 
-    public static DeleteUserLogic getInstance() throws SQLException, NamingException {
+    public static DeleteUserService getInstance() throws SQLException, NamingException {
         if (instance == null) {
-            instance = new DeleteUserLogic();
+            instance = new DeleteUserService();
         }
         return instance;
     }
@@ -31,7 +30,7 @@ public class DeleteUserLogic {
     */
 
     public boolean deleteUser (String username, String userpassword) throws SQLException, NamingException {
-            if (loginLogic.ifUserExists(username, userpassword)){
+            if (loginService.ifUserExists(username, userpassword)){
                 userDAO.deleteUser(username, userpassword);
                 return true;
             }

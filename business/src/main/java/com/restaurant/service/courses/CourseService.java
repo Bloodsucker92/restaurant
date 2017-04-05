@@ -1,4 +1,4 @@
-package com.restaurant.logics.courses;
+package com.restaurant.service.courses;
 
 
 import com.restaurant.dao.beans.Course;
@@ -13,16 +13,16 @@ import java.util.ArrayList;
 * Deals with the course logic exclusively
 */
 
-public class CourseLogic {
-    private static CourseLogic instance;
+public class CourseService {
+    private static CourseService instance;
     private CourseDAOImpl courseDAO = CourseDAOImpl.getInstance();
 
-    private CourseLogic() throws SQLException, NamingException {
+    private CourseService() throws SQLException, NamingException {
     }
 
-    public static CourseLogic getInstance() throws SQLException, NamingException {
+    public static CourseService getInstance() throws SQLException, NamingException {
         if (instance == null) {
-            instance = new CourseLogic();
+            instance = new CourseService();
         }
         return instance;
     }

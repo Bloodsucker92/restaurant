@@ -1,6 +1,6 @@
 package commands;
 
-import com.restaurant.logics.register.RegisterUserLogic;
+import com.restaurant.service.register.RegisterUserService;
 import filter.ClientType;
 import utils.ConfigurationManager;
 
@@ -14,7 +14,7 @@ import java.sql.SQLException;
 
 public class RegisterCommand extends ActionCommand{
 
-    private RegisterUserLogic registerUserLogic = RegisterUserLogic.getInstance();
+    private RegisterUserService registerUserService = RegisterUserService.getInstance();
 
     public RegisterCommand() throws SQLException, NamingException {
     }
@@ -26,7 +26,7 @@ public class RegisterCommand extends ActionCommand{
         String page = null;
         String loginReg = request.getParameter("loginReg");
         String passwordReg = request.getParameter("passwordReg");
-        registerUserLogic.registerUser(loginReg, passwordReg);
+        registerUserService.registerUser(loginReg, passwordReg);
         request.setAttribute("newUser", loginReg);
         HttpSession session = request.getSession(true);
         session.setAttribute("userType", ClientType.USER);

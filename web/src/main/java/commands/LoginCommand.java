@@ -1,7 +1,7 @@
 package commands;
 
 
-import com.restaurant.logics.login.LoginLogic;
+import com.restaurant.service.login.LoginService;
 import filter.ClientType;
 import utils.ConfigurationManager;
 
@@ -17,7 +17,7 @@ import java.sql.SQLException;
 public class LoginCommand extends ActionCommand {
   private static final String PARAM_NAME_LOGIN = "login";
   private static final String PARAM_NAME_PASSWORD = "password";
-  private LoginLogic loginLogic = LoginLogic.getInstance();
+  private LoginService loginService = LoginService.getInstance();
 
   public LoginCommand() throws SQLException, NamingException {
   }
@@ -31,14 +31,14 @@ public class LoginCommand extends ActionCommand {
     String pass = request.getParameter(PARAM_NAME_PASSWORD);
     // login and password check
       // check if user exists in a database
-      if (loginLogic.ifUserExists(login, pass)){
-        if (loginLogic.checkAdminLogin(login, pass)) {
+      if (loginService.ifUserExists(login, pass)){
+        if (loginService.checkAdminLogin(login, pass)) {
           request.setAttribute("user", login);
           HttpSession session = request.getSession(true);
           session.setAttribute("userType", ClientType.ADMINISTRATOR);
           // defining the path to the main.jsp (in case the user is admin)
           page = ConfigurationManager.getProperty("path.page.main");
-        } else if (loginLogic.checkUserLogin(login, pass)) {
+        } else if (loginService.checkUserLogin(login, pass)) {
           request.setAttribute("user", login);
           HttpSession session = request.getSession(true);
           session.setAttribute("userType", ClientType.USER);

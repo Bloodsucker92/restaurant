@@ -2,7 +2,7 @@ package commands;
 
 
 import com.restaurant.dao.beans.Course;
-import com.restaurant.logics.courses.CourseLogic;
+import com.restaurant.service.courses.CourseService;
 import utils.ConfigurationManager;
 
 import javax.naming.NamingException;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class ShowCoursesCommand extends ActionCommand {
 
-    private CourseLogic courseLogic = CourseLogic.getInstance();
+    private CourseService courseService = CourseService.getInstance();
 
     public ShowCoursesCommand() throws SQLException, NamingException {
     }
@@ -27,7 +27,7 @@ public class ShowCoursesCommand extends ActionCommand {
         String page = null;
         String userForm = request.getParameter("userForm");
 
-        ArrayList<Course> list = courseLogic.showCourses();
+        ArrayList<Course> list = courseService.showCourses();
         request.setAttribute("courseList", list);
         page = ConfigurationManager.getProperty("path.page.showcourses");
         return page;

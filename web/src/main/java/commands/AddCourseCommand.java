@@ -1,6 +1,6 @@
 package commands;
 
-import com.restaurant.logics.courses.CourseLogic;
+import com.restaurant.service.courses.CourseService;
 import utils.ConfigurationManager;
 import utils.ExceptionManager;
 
@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class AddCourseCommand extends ActionCommand {
 
     private ExceptionManager exceptionManager = ExceptionManager.getInstance();
-    private CourseLogic courseLogic = CourseLogic.getInstance();
+    private CourseService courseService = CourseService.getInstance();
 
     public AddCourseCommand() throws SQLException, NamingException {
     }
@@ -27,7 +27,7 @@ public class AddCourseCommand extends ActionCommand {
         String coursePrice = request.getParameter("coursePrice");
         String courseType = request.getParameter("dropDownList");
         try {
-            courseLogic.addCourse(courseName, Integer.parseInt(coursePrice), courseType);
+            courseService.addCourse(courseName, Integer.parseInt(coursePrice), courseType);
         } catch (SQLException | NamingException e) {
             exceptionManager.writeErrorToLog(AddCourseCommand.class.getName(), e, true);
         }

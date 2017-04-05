@@ -1,27 +1,26 @@
-package com.restaurant.logics.users;
+package com.restaurant.service.users;
 
 
 import com.restaurant.dao.beans.User;
 import com.restaurant.dao.userDAO.UserDAOImpl;
 
 import javax.naming.NamingException;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 /* Provides service methods that show the existing users*/
 
-public class ShowUsersLogic {
+public class ShowUsersService {
     private UserDAOImpl userDAO = UserDAOImpl.getInstance();
-    private static ShowUsersLogic instance;
+    private static ShowUsersService instance;
 
-    private ShowUsersLogic() throws NamingException, SQLException {
+    private ShowUsersService() throws NamingException, SQLException {
     }
 
-    public static ShowUsersLogic getInstance() throws NamingException, SQLException {
+    public static ShowUsersService getInstance() throws NamingException, SQLException {
         if (instance == null) {
-            instance = new ShowUsersLogic();
+            instance = new ShowUsersService();
         }
         return instance;
     }

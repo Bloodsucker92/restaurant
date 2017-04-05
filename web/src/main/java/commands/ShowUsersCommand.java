@@ -1,13 +1,12 @@
 package commands;
 
 import com.restaurant.dao.beans.User;
-import com.restaurant.logics.users.ShowUsersLogic;
+import com.restaurant.service.users.ShowUsersService;
 import utils.ConfigurationManager;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -15,7 +14,7 @@ import java.util.ArrayList;
 
 public class ShowUsersCommand extends ActionCommand {
 
-    private ShowUsersLogic showUsersLogic = ShowUsersLogic.getInstance();
+    private ShowUsersService showUsersService = ShowUsersService.getInstance();
 
     public ShowUsersCommand() throws SQLException, NamingException {
     }
@@ -23,7 +22,7 @@ public class ShowUsersCommand extends ActionCommand {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException {
         String page = null;
-        ArrayList<User> list = showUsersLogic.showUsers();
+        ArrayList<User> list = showUsersService.showUsers();
         request.setAttribute("usersList", list);
         page = ConfigurationManager.getProperty("path.page.showusers");
         return page;

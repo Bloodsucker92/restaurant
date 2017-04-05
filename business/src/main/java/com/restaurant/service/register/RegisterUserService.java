@@ -1,25 +1,24 @@
-package com.restaurant.logics.register;
+package com.restaurant.service.register;
 
 import com.restaurant.dao.beans.User;
 import com.restaurant.dao.userDAO.UserDAOImpl;
 
 import javax.naming.NamingException;
-import java.io.IOException;
 import java.sql.SQLException;
 
 /* Provides service methods for a new user registration operation */
 
-public class RegisterUserLogic {
+public class RegisterUserService {
 
-    private static RegisterUserLogic instance;
+    private static RegisterUserService instance;
     private UserDAOImpl userDAO = UserDAOImpl.getInstance();
 
-    private RegisterUserLogic() throws NamingException, SQLException {
+    private RegisterUserService() throws NamingException, SQLException {
     }
 
-    public static RegisterUserLogic getInstance() throws NamingException, SQLException {
+    public static RegisterUserService getInstance() throws NamingException, SQLException {
         if (instance == null) {
-            instance = new RegisterUserLogic();
+            instance = new RegisterUserService();
         }
         return instance;
     }
