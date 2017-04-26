@@ -1,0 +1,16 @@
+
+.carousel-inner > .item > img {
+    width: 70%;
+    margin: auto;
+    border-radius: 9px;
+}
+
+.carousel-controls{
+    position:relative;
+    width:300px;
+    margin:0 auto;
+}
+
+.carousel-indicators{
+    top:0px;
+}

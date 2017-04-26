@@ -11,6 +11,7 @@ table {
 td, th { border: 1px solid #CCC; height: 30px; } /* Make cells a bit taller */
 
 th {
+    text-align: center;
     background: #F3F3F3; /* Light grey background */
     font-weight: bold; /* Make sure they're bold */
 }

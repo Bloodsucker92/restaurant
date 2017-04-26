@@ -1,66 +1,73 @@
 package com.restaurant.service.login;
 
-import com.restaurant.dao.userDAO.*;
+import com.restaurant.dao.beans.User;
+import com.restaurant.dao.exceptions.DaoException;
+import com.restaurant.dao.impl.UserDaoImpl;
+import com.restaurant.dao.util.HibernateUtil;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import javax.naming.NamingException;
-import java.io.IOException;
-import java.sql.SQLException;
 
 /* Provides service methods which take action when a user fills in the login form of the app*/
 
 public class LoginService {
 
-  private static String ENTER_LOGIN = null;
-  private static String ENTER_PASSWORD = null;
-  private static String ENTER_ACCESS = null;
-  private UserDAOImpl userDAO = UserDAOImpl.getInstance();
-  private static LoginService instance;
+    private static Logger log = Logger.getLogger(LoginService.class);
+    private UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private static LoginService instance;
+    private HibernateUtil hibernateUtil = HibernateUtil.getHibernateUtil();
+    private Session session;
+    private Transaction transaction;
 
-  private LoginService() throws NamingException, SQLException {
-  }
 
-  public static LoginService getInstance() throws NamingException, SQLException {
-      if (instance == null) {
-        instance = new LoginService();
-      }
-    return instance;
-  }
+    private LoginService() {
+
+    }
+
+    public static LoginService getInstance() {
+        if (instance == null) {
+            instance = new LoginService();
+        }
+        return instance;
+    }
+
+    public User getUserById(Integer id) throws DaoException {
+        User user = new User();
+        try {
+            session = hibernateUtil.getSession();
+            transaction = session.beginTransaction();
+            user = userDao.get(id);
+            session.flush();
+            transaction.commit();
+        } catch (HibernateException e) {
+            log.error("Error getting user by id" + e);
+            transaction.rollback();
+            throw new DaoException(e);
+
+        }
+
+        return user;
+    }
+
 
   /* Checks if a certain user was registered and is present in the database */
 
-  public boolean ifUserExists (String enterLogin, String enterPassword) throws SQLException, NamingException {
-    boolean userExists;
-    if (userDAO.getUser(enterLogin, enterPassword) == null){
-      userExists = false;
-    } else {
-      userExists = true;
+    public User findUserByLoginAndPassword(String enterLogin, String enterPassword) throws DaoException {
+        User user = new User();
+        try {
+            session = hibernateUtil.getSession();
+            transaction = session.beginTransaction();
+            user = userDao.getUserByLoginAndPassword(enterLogin, enterPassword);
+            session.flush();
+            transaction.commit();
+        } catch (HibernateException e) {
+            log.error("Error getting User by login and password" + e);
+            transaction.rollback();
+            throw new DaoException(e);
+        }
+        return user;
     }
-    return userExists;
-  }
 
-  /* A subsidiary method */
-
-  public void getUserDaoInstance (String enterLogin, String enterPass) throws SQLException, NamingException {
-
-  ENTER_LOGIN = userDAO.getUser(enterLogin, enterPass).getUsername();
-  ENTER_PASSWORD = userDAO.getUser(enterLogin, enterPass).getUserpassword();
-  ENTER_ACCESS = userDAO.getUser(enterLogin, enterPass).getAccess();
-  }
-
-
-  /* Checks if a certain user has admin access*/
-
-  public boolean checkAdminLogin(String enterLogin, String enterPass) throws SQLException, NamingException {
-    getUserDaoInstance(enterLogin, enterPass);
-
-    return ENTER_LOGIN.equals(enterLogin) && ENTER_PASSWORD.equals(enterPass) && ENTER_ACCESS.equals("a");
-  }
-
-  /* Checks if a certain user has user access*/
-
-  public boolean checkUserLogin(String enterLogin, String enterPass) throws SQLException, NamingException {
-    getUserDaoInstance(enterLogin, enterPass);
-
-    return ENTER_LOGIN.equals(enterLogin) && ENTER_PASSWORD.equals(enterPass) && ENTER_ACCESS.equals("u");
-  }
 }

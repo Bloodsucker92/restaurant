@@ -11,19 +11,35 @@
   <fmt:setBundle basename="locale_ru" />
  </c:if>
  <title><fmt:message key="main.title"/></title>
- <link rel="stylesheet" href="css/logFormStyles.css"/></head>
+ <link rel="stylesheet" href="css/logFormStyles.css"/>
+  <link rel="stylesheet" href="css/tableStyles.css"/>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript"
+          src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script></head>
 
 
-<body>
+<body style="background: #FFF0B1;">
 <div class="container">
 <form name="userForm" method="GET" action="controller">
  <input type="hidden" name="command" value="showcourses" />
- <h3 align="center"><fmt:message key="main.welcomemessage"/>${user}!</h3>
+ <h3 align="center"><fmt:message key="main.welcomemessage"/>${requestScope.user}!</h3>
  <hr/><br>
  <span style="color:#58D3F7"><h5 align="center"><fmt:message key="main.youhaveloggedin"/></h5></span>
  <hr/><br/>
+ <div class="well" style="background: #335c84;">
  <button type="submit"><fmt:message key="main.showcoursesbutton"/> </button>
+ <div class="select">
+  <label for="itemsPerPage">Items per page:</label>
+  <select class="form-control" id="itemsPerPage" name="itemsPerPage">
+   <option>5</option>
+   <option>10</option>
+   <option>20</option>
+   <option>50</option>
+  </select>
+  </div>
+ </div>
 </form>
+
 <form action="addcourse.jsp">
  <input type="submit" value="<fmt:message key="main.addnewcourse"/>"/>
 </form>
@@ -31,7 +47,6 @@
   <input type="hidden" name="command" value="showusers" />
   <input type="submit" value="<fmt:message key="main.showusers"/>"/>
  </form>
-<a href="controller?command=logout"><fmt:message key="main.logout"/> </a>
 </div>
 
 </body></html>

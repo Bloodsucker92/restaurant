@@ -1,0 +1,14 @@
+
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.navbar-default .container-fluid {
+    background-color: #FFA600;
+}
+
+.navbar-collapse .navbar-right .form-inline {
+    width: 70%;
+}
+

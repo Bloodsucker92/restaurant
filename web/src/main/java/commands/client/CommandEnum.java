@@ -13,80 +13,78 @@ import java.sql.SQLException;
 
 public enum CommandEnum {
 
-LOGIN {
- {
-  try {
-   this.command = new LoginCommand();
-  } catch (SQLException | NamingException e) {
-   ExceptionManager.writeErrorToLog(CommandEnum.class.getName(), e, true);
-  }
- }
-},
-LOGOUT {
- {
- this.command = new LogoutCommand();
- }
-},
- REGISTER {
-  {
-   try {
-    this.command = new RegisterCommand();
-   }
-   catch (SQLException | NamingException e) {
-    ExceptionManager.writeErrorToLog(CommandEnum.class.getName(), e, true);
-   }
-  }
- },
- SHOWCOURSES {
-  {
-   try {
-    this.command = new ShowCoursesCommand();
-   } catch (SQLException | NamingException e) {
-    ExceptionManager.writeErrorToLog(CommandEnum.class.getName(), e, true);
-   }
-  }
- },
- ADDCOURSE {
-  {
-   try {
-    this.command = new AddCourseCommand();
-   } catch (SQLException | NamingException e) {
-    ExceptionManager.writeErrorToLog(CommandEnum.class.getName(), e, true);
-   }
-  }
- },
+    LOGIN {
+        {
+            this.command = new LoginCommand();
+        }
+    },
+    LOGOUT {
+        {
+            this.command = new LogoutCommand();
+        }
+    },
+    REGISTER {
+        {
+            this.command = new RegisterCommand();
+        }
+    },
+    SHOWCOURSES {
+        {
+            this.command = new ShowCoursesCommand();
+        }
+    },
+    ADDCOURSE {
+        {
+            this.command = new AddCourseCommand();
+        }
+    },
 
- SETLANGUAGE {
-  {
-   this.command = new SetLanguageCommand();
-  }
- },
+    SETLANGUAGE {
+        {
+            this.command = new SetLanguageCommand();
+        }
+    },
 
- SHOWUSERS {
-  {
-   try {
-    this.command = new ShowUsersCommand();
-   } catch (SQLException | NamingException e) {
-    ExceptionManager.writeErrorToLog(CommandEnum.class.getName(), e, true);
-   }
-  }
- },
- DELETEUSER {
-  {
-   try {
-    this.command = new DeleteUserCommand();
-   } catch (SQLException | NamingException e) {
-    ExceptionManager.writeErrorToLog(CommandEnum.class.getName(), e, true);
-   }
-  }
- }
- ;
+    SHOWUSERS {
+        {
+            this.command = new ShowUsersCommand();
+        }
+    },
+    DELETEUSER {
+        {
+            this.command = new DeleteUserCommand();
+        }
+    },
 
-ActionCommand command;
+    DELETECOURSE {
+        {
+            this.command = new DeleteCourseCommand();
+
+        }
+    },
+
+    MAKEORDER {
+        {
+            this.command = new MakeOrderCommand();
+        }
+    },
+    SHOWORDERS {
+        {
+            this.command = new ShowOrdersCommand();
+        }
+    },
+
+    DELETEORDER {
+        {
+            this.command = new DeleteOrderCommand();
+        }
+    };
+
+    ActionCommand command;
 
 /* Returns the object created by a certain command*/
 
-public ActionCommand getCurrentCommand() {
- return command;
-}
+    public ActionCommand getCurrentCommand() {
+        return command;
+    }
 }

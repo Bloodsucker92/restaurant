@@ -50,6 +50,11 @@ form button {
     margin-top: 10px;
     cursor: pointer;
 }
+
+#deleteBtn{
+
+}
+
 form .error {
     color: #ff0000;
 }

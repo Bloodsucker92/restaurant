@@ -15,7 +15,9 @@ public class SetLanguageCommand extends ActionCommand{
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         String lang = request.getParameter("language");
         HttpSession session = request.getSession();
-        session.setAttribute("locale", BASENAME + lang.toLowerCase());
+        if (lang!=null) {
+            session.setAttribute("locale", BASENAME + lang.toLowerCase());
+        }
 
         return null;
     }

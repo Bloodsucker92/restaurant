@@ -1,5 +1,6 @@
 package commands;
 
+import com.restaurant.dao.exceptions.DaoException;
 import utils.ExceptionManager;
 
 import javax.naming.NamingException;
@@ -18,5 +19,5 @@ public abstract class ActionCommand {
         exceptionManager = ExceptionManager.getInstance();
     }
 
-    public abstract String execute(HttpServletRequest request, HttpServletResponse response) throws SQLException, NamingException;
+    public abstract String execute(HttpServletRequest request, HttpServletResponse response) throws DaoException;
 }

@@ -1,24 +1,32 @@
 package com.restaurant.service.users;
 
 
-import com.restaurant.dao.userDAO.UserDAOImpl;
+import com.restaurant.dao.beans.User;
+import com.restaurant.dao.exceptions.DaoException;
+import com.restaurant.dao.impl.UserDaoImpl;
+import com.restaurant.dao.util.HibernateUtil;
 import com.restaurant.service.login.LoginService;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import javax.naming.NamingException;
-import java.sql.SQLException;
 
 /* Provides service methods for deleting a certain user from the databse */
 
 public class DeleteUserService {
 
-    private UserDAOImpl userDAO = UserDAOImpl.getInstance();
+    private static Logger log = Logger.getLogger(LoginService.class);
+    private UserDaoImpl userDao = UserDaoImpl.getInstance();
     private static DeleteUserService instance;
-    private LoginService loginService = LoginService.getInstance();
+    private HibernateUtil hibernateUtil = HibernateUtil.getHibernateUtil();
+    private Session session = hibernateUtil.getSession();
+    private Transaction transaction;
 
-    private DeleteUserService() throws SQLException, NamingException {
+    private DeleteUserService() {
     }
 
-    public static DeleteUserService getInstance() throws SQLException, NamingException {
+    public static DeleteUserService getInstance() {
         if (instance == null) {
             instance = new DeleteUserService();
         }
@@ -29,12 +37,24 @@ public class DeleteUserService {
     *  Returns true if the user has been successfully deleted and false otherwise.
     */
 
-    public boolean deleteUser (String username, String userpassword) throws SQLException, NamingException {
-            if (loginService.ifUserExists(username, userpassword)){
-                userDAO.deleteUser(username, userpassword);
-                return true;
-            }
-            else return false;
+    public boolean deleteUser(Integer id) throws DaoException {
+        boolean userDeleted = false;
+        try {
+            session = hibernateUtil.getSession();
+            transaction = session.beginTransaction();
+            User user = userDao.get(id);
+            userDao.delete(user);
+            session.flush();
+            transaction.commit();
+            userDeleted = true;
+        } catch (HibernateException e) {
+            log.error("Error deleting user " + e);
+            transaction.rollback();
+            throw new DaoException(e);
+        }
+
+        return userDeleted;
+
 
     }
 

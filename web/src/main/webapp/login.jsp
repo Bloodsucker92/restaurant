@@ -16,7 +16,8 @@
  <link rel="stylesheet" href="css/logFormStyles.css"/>
  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
  <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
- <script type="text/javascript" src="js/loginvalid.js"></script>
+
+ <jsp:include page="navbar.jsp"></jsp:include>
 </head>
 
 <body>

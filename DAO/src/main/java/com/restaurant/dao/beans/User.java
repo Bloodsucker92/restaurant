@@ -2,84 +2,114 @@ package com.restaurant.dao.beans;
 
 /* A User POJO */
 
+import lombok.AllArgsConstructor;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@AllArgsConstructor
+@Entity
+@Table (name = "USER")
 public class User {
 
-    private int id;
+    private final static long serialVersionUid = 1L;
+    @Id
+    @GeneratedValue (strategy = GenerationType.AUTO)
+    @Column (name = "USER_ID")
+    private Integer id;
+    @Column (name = "NAME")
     private String username;
+    @Column (name = "PASSWORD")
     private String userpassword;
+    @Column (name = "ACCESS")
     private String access;
+
+    @OneToMany (mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Order> orderList = new ArrayList<>();
 
     public User() {
     }
 
-    public User(String username, String userpassword, String access) {
-        this.username = username;
-        this.userpassword = userpassword;
-        this.access = access;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    public Integer getId() {
+        return this.id;
     }
 
     public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+        return this.username;
     }
 
     public String getUserpassword() {
-        return userpassword;
+        return this.userpassword;
+    }
+
+    public String getAccess() {
+        return this.access;
+    }
+
+    public List<Order> getOrderList() {
+        return this.orderList;
+    }
+
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setUserpassword(String userpassword) {
         this.userpassword = userpassword;
     }
 
-    public String getAccess() {
-        return access;
-    }
-
     public void setAccess(String access) {
         this.access = access;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (id != user.id) return false;
-        if (!username.equals(user.username)) return false;
-        if (!userpassword.equals(user.userpassword)) return false;
-        return access.equals(user.access);
-
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 
-    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (!(o instanceof User)) return false;
+        final User other = (User) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$id = this.getId();
+        final Object other$id = other.getId();
+        if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        final Object this$username = this.getUsername();
+        final Object other$username = other.getUsername();
+        if (this$username == null ? other$username != null : !this$username.equals(other$username)) return false;
+        final Object this$userpassword = this.getUserpassword();
+        final Object other$userpassword = other.getUserpassword();
+        if (this$userpassword == null ? other$userpassword != null : !this$userpassword.equals(other$userpassword))
+            return false;
+        final Object this$access = this.getAccess();
+        final Object other$access = other.getAccess();
+        if (this$access == null ? other$access != null : !this$access.equals(other$access)) return false;
+        return true;
+    }
+
     public int hashCode() {
-        int result = id;
-        result = 31 * result + username.hashCode();
-        result = 31 * result + userpassword.hashCode();
-        result = 31 * result + access.hashCode();
+        final int PRIME = 59;
+        int result = 1;
+        final Object $id = this.getId();
+        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
+        final Object $username = this.getUsername();
+        result = result * PRIME + ($username == null ? 43 : $username.hashCode());
+        final Object $userpassword = this.getUserpassword();
+        result = result * PRIME + ($userpassword == null ? 43 : $userpassword.hashCode());
+        final Object $access = this.getAccess();
+        result = result * PRIME + ($access == null ? 43 : $access.hashCode());
+
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", userpassword='" + userpassword + '\'' +
-                ", access='" + access + '\'' +
-                '}';
+    protected boolean canEqual(Object other) {
+        return other instanceof User;
     }
+
+    public String toString() {
+        return "com.restaurant.dao.beans.User(id=" + this.getId() + ", username=" + this.getUsername() + ", userpassword=" + this.getUserpassword() + ", access=" + this.getAccess() + ", orderList=" + ")";
+    }
+
 }

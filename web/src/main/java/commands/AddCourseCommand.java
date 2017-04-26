@@ -1,14 +1,17 @@
 package commands;
 
+
+import com.restaurant.dao.exceptions.DaoException;
 import com.restaurant.service.courses.CourseService;
-import utils.ConfigurationManager;
+
 import utils.ExceptionManager;
 
 import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
 import java.sql.SQLException;
+
 
 /* Defines logic for the AddCourse command*/
 
@@ -17,24 +20,20 @@ public class AddCourseCommand extends ActionCommand {
     private ExceptionManager exceptionManager = ExceptionManager.getInstance();
     private CourseService courseService = CourseService.getInstance();
 
-    public AddCourseCommand() throws SQLException, NamingException {
+    public AddCourseCommand() {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws DaoException {
+        boolean courseAdded = false;
         String page = null;
         String courseName = request.getParameter("courseName");
         String coursePrice = request.getParameter("coursePrice");
-        String courseType = request.getParameter("dropDownList");
-        try {
-            courseService.addCourse(courseName, Integer.parseInt(coursePrice), courseType);
-        } catch (SQLException | NamingException e) {
-            exceptionManager.writeErrorToLog(AddCourseCommand.class.getName(), e, true);
-        }
-        request.setAttribute("courseName", courseName);
-            request.setAttribute("coursePrice", coursePrice);
-            page = ConfigurationManager.getProperty("path.page.courseadded");
-
+        Integer courseCategory = Integer.parseInt(request.getParameter("categoryOptions"));
+        courseService.addCourse(courseName, Integer.parseInt(coursePrice), courseCategory);
+        courseAdded = true;
+        ShowCoursesCommand showCoursesCommand = new ShowCoursesCommand();
+        page = showCoursesCommand.execute(request, response);
 
         return page;
     }

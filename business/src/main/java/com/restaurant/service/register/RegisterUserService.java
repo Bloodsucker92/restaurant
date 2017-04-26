@@ -1,22 +1,30 @@
 package com.restaurant.service.register;
 
 import com.restaurant.dao.beans.User;
-import com.restaurant.dao.userDAO.UserDAOImpl;
+import com.restaurant.dao.exceptions.DaoException;
+import com.restaurant.dao.impl.UserDaoImpl;
+import com.restaurant.dao.util.HibernateUtil;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-import javax.naming.NamingException;
-import java.sql.SQLException;
 
 /* Provides service methods for a new user registration operation */
 
 public class RegisterUserService {
 
+    private static Logger log = Logger.getLogger(RegisterUserService.class);
     private static RegisterUserService instance;
-    private UserDAOImpl userDAO = UserDAOImpl.getInstance();
+    private UserDaoImpl userDao = UserDaoImpl.getInstance();
+    private HibernateUtil hibernateUtil = HibernateUtil.getHibernateUtil();
+    private Session session = hibernateUtil.getSession();
+    private Transaction transaction;
 
-    private RegisterUserService() throws NamingException, SQLException {
+    private RegisterUserService() {
     }
 
-    public static RegisterUserService getInstance() throws NamingException, SQLException {
+    public static RegisterUserService getInstance() {
         if (instance == null) {
             instance = new RegisterUserService();
         }
@@ -25,8 +33,22 @@ public class RegisterUserService {
 
     /* Accesses user dao to register a new user into a database */
 
-    public User registerUser(String username, String userpassword) throws SQLException, NamingException {
-        User user = userDAO.addUser(username, userpassword);
-        return user;
+    public void registerUser(String username, String userpassword) throws DaoException {
+
+        User user = new User();
+        user.setUsername(username);
+        user.setUserpassword(userpassword);
+        user.setAccess("u");
+        try {
+            session = hibernateUtil.getSession();
+            transaction = session.beginTransaction();
+            userDao.saveOrUpdate(user);
+            session.flush();
+            transaction.commit();
+        } catch (HibernateException e) {
+            log.error("Error registering new user " + e);
+            transaction.rollback();
+            throw new DaoException(e);
+        }
     }
 }
