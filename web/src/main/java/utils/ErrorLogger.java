@@ -1,19 +1,20 @@
 package utils;
 
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 
 /* Util class which provides the error logger to write errors to the log files using log4j*/
 
 public class ErrorLogger {
 
     private static ErrorLogger instance;
-    private static Logger logger;
+    private static org.apache.logging.log4j.Logger logger;
 
 
     public static ErrorLogger getInstance(String className) {
         if (instance == null) {
-            logger = Logger.getLogger(className);
+            logger = LogManager.getLogger(className);
             instance = new ErrorLogger();
         }
         return instance;

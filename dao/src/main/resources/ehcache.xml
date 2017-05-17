@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xs="http://www.w3.org/2001/XMLSchema"
+         name="mysql"
+         xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="2.0"
+         elementFormDefault="qualified" targetNamespace="http://www.ehcache.org/v3">
+
+    <diskStore path="java.io.tmpdir/ehcache" />
+
+    <defaultCache maxElementsInMemory="20000" eternal="false"
+                  timeToIdleSeconds="300" timeToLiveSeconds="300" overflowToDisk="true"
+                  diskPersistent="false"
+                  diskSpoolBufferSizeMB="30"
+                  diskExpiryThreadIntervalSeconds="120"
+                  memoryStoreEvictionPolicy="LRU"
+                  statistics="true">
+    </defaultCache>
+
+
+    <cache name="com.restaurant.dao.pojos.Course"
+           maxElementsInMemory="15000"
+           eternal="true"
+           overflowToDisk="true">
+    </cache>
+
+    <cache name="com.restaurant.dao.pojos.CourseCategory"
+           maxElementsInMemory="15000"
+           eternal="true"
+           overflowToDisk="true">
+    </cache>
+
+
+
+</ehcache>

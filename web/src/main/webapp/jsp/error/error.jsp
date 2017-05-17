@@ -19,7 +19,7 @@
             crossorigin="anonymous"></script>
 </head>
 <body style="background: #FFF0B1;">
-<jsp:include page="../../navbar.jsp"></jsp:include>
+<jsp:include page="../../WEB-INF/pages/navbar.jsp"></jsp:include>
 <div class="container">
     <h3>Oops! Something went wrong</h3>
     Request from ${pageContext.errorData.requestURI} is failed

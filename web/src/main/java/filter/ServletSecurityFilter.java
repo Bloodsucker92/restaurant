@@ -1,6 +1,5 @@
 package filter;
 
-import com.restaurant.dao.util.HibernateUtil;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -37,8 +36,8 @@ public class ServletSecurityFilter implements Filter {
     if (type == null ) {
       type = ClientType.GUEST;
       session.setAttribute("userType", type);
-      RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jsp");
-      dispatcher.forward(req, resp);
+//      RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher("/index.jspx");
+//      dispatcher.forward(req, resp);
       return;
     }
 
