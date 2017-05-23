@@ -12,10 +12,11 @@
     />
 
     <http auto-config="true">
-        <intercept-url pattern="/home" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
-        <intercept-url pattern="/orders" access="hasRole('ROLE_USER')"/>
+        <intercept-url pattern="/home**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')"/>
+        <intercept-url pattern="/orders**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/orders/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
+        <intercept-url pattern="/admin**" access="hasRole('ROLE_ADMIN')"/>
         <!--<intercept-url pattern="/pizza" access="permitAll"/>-->
         <!--<intercept-url pattern="/drinks" access="permitAll"/>-->
         <!--<intercept-url pattern="/pizza/**" access="hasRole('ROLE_USER')"/>-->

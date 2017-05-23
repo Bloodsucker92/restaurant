@@ -3,8 +3,6 @@
 INSERT INTO USER (NAME, PASSWORD, ACCESS) VALUES ('user', '123', 'u');
 INSERT INTO USER (NAME, PASSWORD, ACCESS) VALUES ('admin', '123', 'a');
 INSERT INTO USER (NAME, PASSWORD, ACCESS) VALUES ('denis', 'denis', 'u');
-INSERT INTO USER (NAME, PASSWORD, ACCESS) VALUES ('blackmore', 'blackmore', 'a');
-INSERT INTO USER (NAME, PASSWORD, ACCESS) VALUES ('ritchie', 'ritchie', 'u');
 INSERT INTO USER (NAME, PASSWORD, ACCESS) VALUES ('jack', 'jack', 'u');
 
 /*Course category table*/

@@ -1,4 +1,4 @@
-package com;
+package test;
 
 import com.restaurant.dao.pojos.User;
 import com.restaurant.service.exceptions.ServiceException;

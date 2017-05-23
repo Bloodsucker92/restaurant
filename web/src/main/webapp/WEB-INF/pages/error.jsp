@@ -25,9 +25,10 @@
 
 </head>
 <body style="background: #FFF0B1;">
+<jsp:include page="navbar.jsp"></jsp:include>
 <div class="container">
     <div class="col-md-12">
-        <div class="page-header"><h1>Oops! Somethimg went wrong...</h1></div>
+        <div class="page-header"><h1>Oops! Something went wrong...</h1></div>
         <p><c:out value="${message}"/></p>
     </div>
 </div>

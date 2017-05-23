@@ -1,4 +1,4 @@
-package com;
+package test;
 
 
 import com.restaurant.dao.pojos.Course;
@@ -38,7 +38,7 @@ public class CourseServiceTest {
 
     @Test
     public void testGetTotalRecordsCount () throws ServiceException {
-        Assert.assertEquals(courseService.getTotalCourseNumber(), new Long(18));
+        Assert.assertEquals(courseService.getTotalCourseNumber(), new Long(21));
     }
 
     @Test

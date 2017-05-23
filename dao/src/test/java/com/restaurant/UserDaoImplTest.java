@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ContextConfiguration(locations = "classpath*:/beans-dao-test.xml")
@@ -32,9 +33,8 @@ public class UserDaoImplTest {
 
     @Test
     public void testGetAllUsers () throws DaoException {
-        List<User> userList = userDao.getAllUsers();
+        ArrayList<User> userList = (ArrayList<User>) userDao.getAllUsers();
         Assert.assertNotNull(userList);
-        Assert.assertEquals("user", userList.get(0).getUsername());
     }
 
     @Test(expected = DaoException.class)
