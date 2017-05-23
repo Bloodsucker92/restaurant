@@ -1,0 +1,8 @@
+Do the following steps to run the app:
+
+1) Change the database credentials in file dao/resources/beans-dao.xml;
+2) Check <prop key="hibernate.hbm2ddl.auto"></prop> in dao/resources/beans-dao.xml.
+   For the first launch it should equal 'create' or 'create-drop'.
+   Database initializing scripts are stored in file 'data.sql' which is executed on the app start up;
+3) Configure the Tomcat web server. I used Tomcat 8.5.11;
+4) Run the application.

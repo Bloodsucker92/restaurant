@@ -26,17 +26,15 @@ public class AdminRestController {
     @Autowired
     private ICourseService courseService;
 
-    @DeleteMapping (value = "admin/users/{customerName}", produces = "application/json")
-    public String deleteUser (@PathVariable String customerName, ModelAndView modelAndView) {
+    @DeleteMapping(value = "admin/users/{username}", produces = "application/json")
+    public String deleteUser(@PathVariable String username, ModelAndView modelAndView) {
         try {
-            User user = userService.getUserByLogin(customerName);
+            User user = userService.getUserByLogin(username);
             userService.delete(user);
             Map result = new HashMap<String, String>();
             result.put("message", "success");
-            result.put("userName", customerName);
             return new JSONObject(result).toString();
-        }
-        catch (ServiceException e) {
+        } catch (ServiceException e) {
             modelAndView.setViewName("error");
             modelAndView.addObject("message", e.getMessage());
             Map result = new HashMap<String, String>();

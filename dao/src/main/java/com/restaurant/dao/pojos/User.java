@@ -22,7 +22,7 @@ public class User {
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column (name = "USER_ID")
     private Integer id;
-    @Column (name = "NAME")
+    @Column (name = "NAME", unique = true)
     @NotBlank (message = "Please fill in this field")
     @Size (min = 3, max = 6, message = "Username must contain from 3 to 6 symblos")
     @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "This field must contain only letters and numbers")

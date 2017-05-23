@@ -37,11 +37,10 @@
                     <th></th>
                 </tr>
                 <script>
-                    function deleteCourse() {
+                    function deleteCourse(courseId) {
 
                         var token = $("meta[name='_csrf']").attr("content");
                         var header = $("meta[name='_csrf_header']").attr("content");
-                        var courseId = $("#courseId").val();
                         $.ajax({
                             url: '${pageContext.request.contextPath}/admin/courses/' + courseId,
                             type: 'DELETE',
@@ -49,7 +48,7 @@
                                 xhr.setRequestHeader(header, token);
                             },
                             success: function(result) {
-                                $('#' + result.courseId).remove();
+                                $('#' + courseId).remove();
                             }
                         })
                     }
@@ -66,9 +65,8 @@
                             <c:out value="${course.courseCategory.courseCategory}"></c:out>
                         </td>
                         <td align="center">
-                                <input type="hidden" name="courseId" value="${course.id}" id="courseId"/>
                                 <button id="deleteBtn" type="button" class="btn btn-danger"
-                                        onclick="deleteCourse()">
+                                        onclick="deleteCourse('${course.id}')">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
                         </td>

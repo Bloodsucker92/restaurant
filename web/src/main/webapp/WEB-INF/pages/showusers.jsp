@@ -16,7 +16,7 @@
     <title><fmt:message key="deleteuser.title"/></title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
     <%--<script type="text/javascript"--%>
-            <%--src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>--%>
+    <%--src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.vali.."></script>--%>
     <jsp:include page="adminNavbar.jsp"></jsp:include>
 </head>
 <body style="background: #FFF0B1;">
@@ -29,43 +29,40 @@
     </tr>
 
     <script>
-        function deleteUser() {
+        function deleteUser(username) {
 
             var token = $("meta[name='_csrf']").attr("content");
             var header = $("meta[name='_csrf_header']").attr("content");
-            var customerName = $('#customerName').val();
 
             $.ajax({
-                url: '${pageContext.request.contextPath}/admin/users/' + customerName,
+                url: '${pageContext.request.contextPath}/admin/users/' + username,
                 type: 'DELETE',
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader(header, token);
                 },
                 success: function (result) {
-                    $('#' + result.customerName).remove();
+                    $('#' + username).remove();
                 }
             })
         }
     </script>
 
-
-    <c:forEach var="customer" items="${usersList}" varStatus="i">
-        <tr id="${customer.id}">
+    <c:forEach var="user" items="${usersList}" varStatus="i">
+        <tr id="${user.username}">
             <td align="center">
-                <c:out value="${customer.username}"></c:out>
+                <c:out value="${user.username}"></c:out>
             </td>
             <td align="center">
-                <c:out value="${customer.userpassword}"></c:out>
+                <c:out value="${user.userpassword}"></c:out>
             </td>
             <td align="center">
-                <c:out value="${customer.id}"></c:out>
+                <c:out value="${user.id}"></c:out>
             </td>
             <td align="center">
 
                 <button id="deleteBtn" class="btn btn-danger"
-                        onclick="deleteUser()">
+                        onclick="deleteUser('${user.username}')">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    <input id="customerName" type="hidden" value="${customer.username}">
                 </button>
             </td>
         </tr>
