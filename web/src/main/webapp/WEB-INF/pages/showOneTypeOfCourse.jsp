@@ -7,9 +7,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <%--Check the session scope to set the proper locale--%>
-    <fmt:setBundle basename="locale_us" />
-    <c:if test="${sessionScope.locale == 'locale_us' or empty sessionScope.locale}" >
-        <fmt:setBundle basename="locale_us" />
+    <fmt:setBundle basename="locale_en" />
+    <c:if test="${sessionScope.locale == 'locale_en' or empty sessionScope.locale}" >
+        <fmt:setBundle basename="locale_en" />
     </c:if>
     <c:if test="${sessionScope.locale == 'locale_ru'}">
         <fmt:setBundle basename="locale_ru" />

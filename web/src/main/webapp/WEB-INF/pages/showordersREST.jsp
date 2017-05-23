@@ -18,15 +18,12 @@
     <%--<link rel="stylesheet" href="css/tableStyles.css"/>--%>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript"
-            src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
-    <script type="text/javascript" src="assets/js/ajaxDeleteItemFromOrder.js"></script>
+            src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.vali.."></script>
     <jsp:include page="userNavbar.jsp"></jsp:include>
-
 
 </head>
 
 <body style="background: #FFF0B1;">
-
 
 <div class="container">
     <h3>Order list of user ${order.user.username}</h3>
@@ -49,20 +46,20 @@
                 var orderId = $("#orderId").val();
                 var courseId = $("#courseId").val();
                 $.ajax({
-                    url: '/orders/' + orderId + '/courses/' + courseId,
+                    url: '${pageContext.request.contextPath}/orders/' + orderId + '/courses/' + courseId,
                     type: 'DELETE',
-                    beforeSend: function (xhr) {
+                    beforeSend: function(xhr) {
                         xhr.setRequestHeader(header, token);
                     },
-                    success: function (result) {
-                        // Do something with the result
+                    success: function(result) {
+                        $('#' + result.courseId).remove();
                     }
                 })
             }
         </script>
 
         <c:forEach var="course" items="${courseList}">
-            <tr>
+            <tr id="${course.id}">
                 <td align="center">
                     <c:out value="${course.courseName}"></c:out>
                 </td>
@@ -73,14 +70,11 @@
                     <c:out value="${course.courseCategory.courseCategory}"></c:out>
                 </td>
                 <td align="center">
-
-                    <form id="deleteButtonForm">
-                        <button id="deleteBtn" type="submit" class="btn btn-danger" onclick="deleteItem()">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            <input type="hidden" id="orderId" value="${order.id}">
-                            <input type="hidden" id="courseId" value="${course.id}">
-                        </button>
-                    </form>
+                    <button id="deleteBtn" class="btn btn-danger" onclick="deleteItem()">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        <input type="hidden" id="orderId" value="${order.id}">
+                        <input type="hidden" id="courseId" value="${course.id}">
+                    </button>
                 </td>
             </tr>
 
@@ -98,4 +92,3 @@
 </body>
 
 </html>
-

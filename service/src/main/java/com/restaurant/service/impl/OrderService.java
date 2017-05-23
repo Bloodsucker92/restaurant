@@ -15,7 +15,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = DaoException.class)
@@ -79,9 +82,13 @@ public class OrderService extends BaseService<Order> implements IOrderService {
     @Override
     public void deleteItemFromOrder(int courseIdToDelete, int orderId) throws ServiceException {
         try {
-            Course courseToDelete = (Course) courseDao.get(courseIdToDelete);
-            Order order = (Order) orderDao.getOrderById(orderId);
-            order.getCourseSet().remove(courseToDelete);
+            Course courseToDelete = courseDao.get(courseIdToDelete);
+            Order order = orderDao.getOrderById(orderId);
+            ArrayList<Course> courses = new ArrayList<>();
+            courses.addAll(order.getCourseSet());
+            courses.remove(courseToDelete);
+            order.getCourseSet().clear();
+            order.getCourseSet().addAll(courses);
             orderDao.update(order);
         } catch (DaoException e) {
             log.error("Error performing delete item from current order service method", e);

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <html>
 <head>
     <title>User Navbar</title>
@@ -22,9 +23,9 @@
 
 
     <%--Check the session scope to set the proper locale--%>
-    <fmt:setBundle basename="locale_us"/>
-    <c:if test="${sessionScope.locale == 'locale_us' or empty sessionScope.locale}">
-        <fmt:setBundle basename="locale_us"/>
+    <fmt:setBundle basename="locale_en"/>
+    <c:if test="${sessionScope.locale == 'locale_en' or empty sessionScope.locale}">
+        <fmt:setBundle basename="locale_en"/>
     </c:if>
     <c:if test="${sessionScope.locale == 'locale_ru'}">
         <fmt:setBundle basename="locale_ru"/>
@@ -52,13 +53,13 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="${pageContext.request.contextPath}/home">Home <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="${pageContext.request.contextPath}/home"><spring:message code="user.home"></spring:message><span class="sr-only">(current)</span></a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Language<span class="caret"></span></a>
+                       aria-expanded="false"><spring:message code="user.language"></spring:message><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">ENG</a></li>
-                        <li><a href="#">RUS</a></li>
+                        <li><a href="?locale=en">ENG</a></li>
+                        <li><a href="?locale=ru">RUS</a></li>
                     </ul>
                 </li>
             </ul>
@@ -74,7 +75,7 @@
             </form>
             <c:url var="logoutUrl" value="/logout"/>
             <form class="navbar-form navbar-right" action="${logoutUrl}" method="GET">
-                <input class="btn btn-danger" type="submit" style="height: 35px;" value="<fmt:message key='user.logout'/>"/>
+                <input class="btn btn-danger" type="submit" style="height: 35px;" value="<spring:message code="user.logout"/>"/>
             </form>
             <form class="navbar-form navbar-right">
                 <h6 align="center">Greetings, ${sessionScope.loggedinuser}!</h6>

@@ -23,19 +23,19 @@ public class User {
     @Column (name = "USER_ID")
     private Integer id;
     @Column (name = "NAME")
-    @NotBlank (message = "Please fill in out this field")
+    @NotBlank (message = "Please fill in this field")
     @Size (min = 3, max = 6, message = "Username must contain from 3 to 6 symblos")
     @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "This field must contain only letters and numbers")
     private String username;
     @Column (name = "PASSWORD")
-    @NotBlank (message = "Please fill in out this field")
+    @NotBlank (message = "Please fill out this field")
     @Size (min = 3, max = 6, message = "Username must contain from 3 to 6 symblos")
     @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "This field must contain only letters and numbers")
     private String userpassword;
     @Column (name = "ACCESS")
     private String access;
 
-    @OneToMany (mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private List<Order> orderList = new ArrayList<>();
 
     public User() {

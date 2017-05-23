@@ -45,6 +45,7 @@
                 <prop key="connection.isolation">2</prop>
                 <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
                 <prop key="hibernate.hbm2ddl.auto">update</prop>
+                <prop key="hibernate.hbm2ddl.import_files">data.sql</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
                 <prop key="hibernate.cache.use_second_level_cache">true</prop>

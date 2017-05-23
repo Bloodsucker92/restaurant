@@ -4,7 +4,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:p="http://www.springframework.org/schema/p"
-       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
                            http://www.springframework.org/schema/context
@@ -12,7 +12,7 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx.xsd
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd">
 
     <Context:component-scan base-package="com.restaurant.dao"/>
     <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="false"/>
@@ -35,6 +35,7 @@
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+                <prop key="hibernate.hbm2ddl.import_files">pizza_test_data.sql</prop>
                 <prop key="hibernate.show_sql">true</prop>
                 <prop key="debug">true</prop>
                 <prop key="connection.isolation">2</prop>
@@ -62,6 +63,7 @@
     <bean id="orderDao" class="com.restaurant.dao.dao.impl.OrderDaoImpl">
         <constructor-arg ref="sessionFactory"/>
     </bean>
+
 
 
 </beans>

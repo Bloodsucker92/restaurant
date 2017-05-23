@@ -3,11 +3,13 @@ package com.restaurant.dao.pojos;
 /* A course POJO */
 
 import org.hibernate.annotations.*;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,12 +43,16 @@ public class Course implements Serializable{
     @GeneratedValue (strategy = GenerationType.AUTO)
     @Column (name = "COURSE_ID", unique = true)
     private Integer id;
+
     @Column (name = "COURSE_NAME")
     private String courseName;
+
     @Column (name = "COURSE_PRICE")
     private Integer coursePrice;
+
     @Column (name = "IMG_PATH")
     private String imgPath;
+
     @ManyToOne
     @JoinColumn (name = "COURSE_CATEGORY_ID")
     private CourseCategory courseCategory;

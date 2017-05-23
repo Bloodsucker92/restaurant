@@ -3,6 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt" %>
 <html>
 <head>
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <%--<link rel="stylesheet" href="css/tableStyles.css"/>--%>
     <%--Check the session scope to set the proper locale--%>
     <fmt:setBundle basename="locale_us"/>
@@ -34,8 +36,26 @@
                     <th>TYPE</th>
                     <th></th>
                 </tr>
+                <script>
+                    function deleteCourse() {
+
+                        var token = $("meta[name='_csrf']").attr("content");
+                        var header = $("meta[name='_csrf_header']").attr("content");
+                        var courseId = $("#courseId").val();
+                        $.ajax({
+                            url: '${pageContext.request.contextPath}/admin/courses/' + courseId,
+                            type: 'DELETE',
+                            beforeSend: function(xhr) {
+                                xhr.setRequestHeader(header, token);
+                            },
+                            success: function(result) {
+                                $('#' + result.courseId).remove();
+                            }
+                        })
+                    }
+                </script>
                 <c:forEach var="course" items="${requestScope.courseList}" varStatus="i">
-                    <tr>
+                    <tr id="${course.id}">
                         <td align="center">
                             <c:out value="${course.courseName}"></c:out>
                         </td>
@@ -46,14 +66,11 @@
                             <c:out value="${course.courseCategory.courseCategory}"></c:out>
                         </td>
                         <td align="center">
-                            <form action="controller" method="post">
-                                <input type="hidden" name="command" value="deletecourse" id="deleteCourseCommand"/>
-                                <input type="hidden" name="id" value="${course.id}" id="id"/>
-                                <button id="deleteBtn" type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Are you sure you want to delete this course?')">
+                                <input type="hidden" name="courseId" value="${course.id}" id="courseId"/>
+                                <button id="deleteBtn" type="button" class="btn btn-danger"
+                                        onclick="deleteCourse()">
                                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                 </button>
-                            </form>
                         </td>
                     </tr>
                 </c:forEach>
@@ -73,39 +90,75 @@
             <form class="form-inline"
                   id="course-pagination-form" name="course-pagination-form" method="get"
                   style="padding-left: 50px;">
-                <input type="hidden" name="command" value="showcourses"/>
                 <ul class="pagination">
                     <c:forEach begin="1" end="${noOfPages}" var="i">
                         <c:choose>
                             <c:when test="${page eq i}">
-                                <li class="active"><a href="${pageContext.request.contextPath}/admin/orders/page/${i}">${i}</a></li>
+                                <li class="active"><a
+                                        href="${pageContext.request.contextPath}/admin/courses/page/${i}">${i}</a></li>
                             </c:when>
                             <c:otherwise>
-                                <li><a href="${pageContext.request.contextPath}/admin/orders/page/${i}">${i}</a></li>
+                                <li><a href="${pageContext.request.contextPath}/admin/courses/page/${i}">${i}</a></li>
                             </c:otherwise>
                         </c:choose>
-
                     </c:forEach>
+                </ul>
+                <ul>
+                    <c:choose>
+                    <c:when test="${empty sessionScope.sortingOrder}">
+                        <li class="active">
+                            Sort by:
+                            <input type="hidden" name="sort" value="price">
+                            <input type="hidden" name="order" value="asc">
+                            <button class="btn btn-info" type="submit">
+                                Price
+                                </button>
+                        </li>
+                    </c:when>
+                        <c:when test="${sessionScope.sortingOrder eq 'desc'}">
+                            <li class="active">
+                                Sort by:
+                                <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                                <input type="hidden" name="sort" value="price">
+                                <input type="hidden" name="order" value="asc">
+                                <button class="btn btn-info" type="submit">
+                                    Price
+                                </button>
+                            </li>
+                        </c:when>
+                    <c:otherwise>
+                        <li class="active">
+                            Sort by:
+                            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                            <input type="hidden" name="sort" value="price">
+                            <input type="hidden" name="order" value="desc">
+                            <button class="btn btn-info" type="submit" value="Price">
+                                Price
+                                </button>
+                        </li>
+                    </c:otherwise>
+                    </c:choose>
                 </ul>
             </form>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-1">
-            <form name="pagination-select" method="get" action="${pageContext.request.contextPath}/admin/orders/page/1">
-            <div class="select">
-                <label for="itemsPerPage">Items per page:</label>
-                <select class="form-control" id="itemsPerPage" name="itemsPerPage">
-                    <option>5</option>
-                    <option>10</option>
-                    <option>20</option>
-                    <option>50</option>
-                </select>
-                <script type="text/javascript">
-                    document.getElementById('itemsPerPage').value = "${itemsPerPage}";
-                </script>
-            </div>
-            <br>
-            <button class="btn btn-success" type="submit">Display</button>
+            <form name="pagination-select" method="get"
+                  action="${pageContext.request.contextPath}/admin/courses/page/1">
+                <div class="select">
+                    <label for="itemsPerPage">Items per page:</label>
+                    <select class="form-control" id="itemsPerPage" name="itemsPerPage">
+                        <option>5</option>
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                    </select>
+                    <script type="text/javascript">
+                        document.getElementById('itemsPerPage').value = "${itemsPerPage}";
+                    </script>
+                </div>
+                <br>
+                <button class="btn btn-success" type="submit">Display</button>
             </form>
         </div>
         <div class="col-md-1"></div>

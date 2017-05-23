@@ -2,12 +2,14 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="message" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
     <%--Check the session scope to set the proper locale--%>
-    <fmt:setBundle basename="locale_us"/>
-    <c:if test="${sessionScope.locale == 'locale_us' or empty sessionScope.locale}">
-        <fmt:setBundle basename="locale_us"/>
+    <fmt:setBundle basename="locale_en"/>
+    <c:if test="${sessionScope.locale == 'locale_en' or empty sessionScope.locale}">
+        <fmt:setBundle basename="locale_en"/>
     </c:if>
     <c:if test="${sessionScope.locale == 'locale_ru'}">
         <fmt:setBundle basename="locale_ru"/>
@@ -40,15 +42,15 @@
     <div class="container">
         <div class="row">
             <div class="panel panel-default" style="width: 65%">
-                <div class="panel-heading">Registration</div>
+                <div class="panel-heading"><message:message code="register.title"/></div>
                 <div class="panel-body">
 
                     <form:form id="reg-form" name="registerForm" modelAttribute="user" method="POST"
                                action="${pageContext.request.contextPath}/register" class="form-horizontal">
 
                         <div class="form-group">
-                            <form:label path="username" class="col-md-2 control-label" for="loginReg"><fmt:message
-                                    key="register.login"/><br/></form:label>
+                            <form:label path="username" class="col-md-2 control-label" for="loginReg"><message:message
+                                    code="register.login"/><br/></form:label>
                             <div class="col-md-4">
                                 <form:input path="username" type="text" class="form-control" name="username"
                                             id="loginReg" value=""
@@ -58,8 +60,8 @@
                         </div>
                         <div class="form-group">
                             <form:label path="userpassword" class="col-md-2 control-label"
-                                        for="passwordReg"><fmt:message
-                                    key="register.pass"/></form:label>
+                                        for="passwordReg"><message:message
+                                    code="register.pass"/></form:label>
                             <div class="col-md-4">
                                 <form:input path="userpassword" type="password" class="form-control" name="userpassword"
                                             id="passwordReg" value=""
@@ -69,7 +71,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-2">
-                                <button type="submit">Register</button>
+                                <button type="submit"><message:message code="register.registerbutton"/> </button>
                             </div>
                         </div>
                     </form:form>

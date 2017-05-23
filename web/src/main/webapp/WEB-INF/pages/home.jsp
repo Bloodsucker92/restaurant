@@ -27,17 +27,6 @@
     </head>
     <body style="background: #FFF0B1;">
 
-    <%--<c:choose>--%>
-        <%--<c:when test="${sessionScope.userType eq 'GUEST'}">--%>
-            <%--<jsp:include page="../pages/navbar.jsp"></jsp:include>--%>
-        <%--</c:when>--%>
-        <%--<c:when test="${empty sessionScope.userType}">--%>
-            <%--<jsp:include page="../pages/navbar.jsp"></jsp:include>--%>
-        <%--</c:when>--%>
-        <%--<c:otherwise>--%>
-            <%--<jsp:include page="../pages/userNavbar.jsp"></jsp:include>--%>
-        <%--</c:otherwise>--%>
-    <%--</c:choose>--%>
     <sec:authorize access="hasRole('ROLE_USER')">
         <jsp:include page="userNavbar.jsp"></jsp:include>
     </sec:authorize>
@@ -57,19 +46,19 @@
             <div class="col-md-2">
             </div>
             <div class="col-md-2">
-                <h4 style="padding-right:100px"><a href="pizza" style="color:#FF7509">Pizza</a></h4>
+                <h4 style="padding-right:100px"><a href="pizza" style="color:#FF7509"><spring:message code="home.pizza"/> </a></h4>
             </div>
             <div class="col-md-2">
-                <h4><a href="drinks" style="color:#FF7509">Drinks</a></h4>
+                <h4><a href="drinks" style="color:#FF7509"><spring:message code="home.drinks"/> </a></h4>
             </div>
             <div class="col-md-2">
-                <h4><a href="#" style="color:#FF7509">Dessert</a></h4>
+                <h4><a href="#" style="color:#FF7509"><spring:message code="home.dessert"/> </a></h4>
             </div>
             <div class="col-md-2">
-                <h4><a href="#" style="color:#FF7509">Soup</a></h4>
+                <h4><a href="#" style="color:#FF7509"><spring:message code="home.soup"/> </a></h4>
             </div>
             <div class="col-md-2">
-                <h4><a href="#" style="color:#FF7509">Other</a></h4>
+                <h4><a href="#" style="color:#FF7509"><spring:message code="home.other"/> </a></h4>
             </div>
             <div class="col-md-0">
                 <h4></h4>
@@ -91,35 +80,35 @@
                 <div class="item active">
                     <img src="assets/img/pizza_web.jpg" alt="slide"/>
                     <div class="carousel-caption">
-                        <h2>Pizza</h2>
+                        <h2><spring:message code="home.pizza"/></h2>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="assets/img/coca-cola_web.jpg" alt="slide"/>
                     <div class="carousel-caption">
-                        <h2>Drinks</h2>
+                        <h2><spring:message code="home.drinks"/> </h2>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="assets/img/desserts_web.jpg" alt="slide"/>
                     <div class="carousel-caption">
-                        <h2>Desserts</h2>
+                        <h2><spring:message code="home.dessert"/> </h2>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="assets/img/soup2_web.jpg" alt="slide"/>
                     <div class="carousel-caption">
-                        <h2>Soup</h2>
+                        <h2><spring:message code="home.soup"/> </h2>
                     </div>
                 </div>
 
                 <div class="item">
                     <img src="assets/img/burger_web.jpg" alt="slide"/>
                     <div class="carousel-caption">
-                        <h2>Other</h2>
+                        <h2><spring:message code="home.other"/> </h2>
                     </div>
                 </div>
 

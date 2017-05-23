@@ -1,7 +1,5 @@
 /*User table*/
 
-USE `test`;
-
 INSERT INTO USER (NAME, PASSWORD, ACCESS) VALUES ('user', '123', 'u');
 INSERT INTO USER (NAME, PASSWORD, ACCESS) VALUES ('admin', '123', 'a');
 INSERT INTO USER (NAME, PASSWORD, ACCESS) VALUES ('denis', 'denis', 'u');

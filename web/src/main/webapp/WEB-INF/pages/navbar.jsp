@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page isELIgnored="false" %>
 <html>
 <head>
@@ -42,13 +43,13 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="home">Home <span class="sr-only">(current)</span></a></li>
+                <li class="active"><a href="home"><spring:message code="user.home"/> <span class="sr-only">(current)</span></a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false">Language<span class="caret"></span></a>
+                       aria-expanded="false"><spring:message code="user.language"/><span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">ENG</a></li>
-                        <li><a href="#">RUS</a></li>
+                        <li><a href="?locale=en">ENG</a></li>
+                        <li><a href="?locale=ru">RUS</a></li>
                     </ul>
                 </li>
             </ul>
@@ -56,7 +57,7 @@
             <c:url var="registerUrl" value="/register"/>
 
             <form class="navbar-form navbar-right" method="get" action="${registerUrl}">
-                    <button type="submit" class="btn btn-default">Register</button>
+                    <button type="submit" class="btn btn-default"><spring:message code="register.registerbutton"/> </button>
             </form>
 
             <c:url var="loginUrl" value="/auth"/>
@@ -74,16 +75,16 @@
                             </div>
                         </c:if>
                         <div class="form-group">
-                            <label class="sr-only" for="login">Login</label>
+                            <label class="sr-only" for="login"><spring:message code="login.login"/> </label>
                             <input type="text" class="form-control" name="login" id="login" placeholder="Login">
                         </div>
                         <div class="form-group">
-                            <label class="sr-only" for="password">Password</label>
+                            <label class="sr-only" for="password"><spring:message code="login.pass"/> </label>
                             <input type="password" class="form-control" name="password" id="password"
                                    placeholder="Password">
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                         </div>
-                        <input type="submit" class="btn btn-success" value="Sign in"/>
+                        <input type="submit" class="btn btn-success" value="<spring:message code="login.signin"/>"/>
 
                 </form>
 

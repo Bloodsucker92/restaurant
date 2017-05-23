@@ -1,6 +1,7 @@
 package com.restaurant.dao.pojos;
 
 
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
 
@@ -10,7 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
-
+@AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table (name = "COURSE_CATEGORY")

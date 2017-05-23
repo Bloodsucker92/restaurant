@@ -6,6 +6,7 @@ import com.restaurant.dao.dao.exceptions.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.*;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -59,6 +60,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserBaseDao<User> 
         List<User> results;
         try {
             Criteria criteria = getSession().createCriteria(User.class);
+            criteria.add(Restrictions.eq("access", "USER"));
             results = criteria.list();
         }
         catch (HibernateException e) {
