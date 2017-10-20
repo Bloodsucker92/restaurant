@@ -52,13 +52,13 @@
                 <h4><a href="drinks" style="color:#FF7509"><spring:message code="home.drinks"/> </a></h4>
             </div>
             <div class="col-md-2">
-                <h4><a href="#" style="color:#FF7509"><spring:message code="home.dessert"/> </a></h4>
+                <h4><a href="dessert" style="color:#FF7509"><spring:message code="home.dessert"/> </a></h4>
             </div>
             <div class="col-md-2">
-                <h4><a href="#" style="color:#FF7509"><spring:message code="home.soup"/> </a></h4>
+                <h4><a href="soup" style="color:#FF7509"><spring:message code="home.soup"/> </a></h4>
             </div>
             <div class="col-md-2">
-                <h4><a href="#" style="color:#FF7509"><spring:message code="home.other"/> </a></h4>
+                <h4><a href="other" style="color:#FF7509"><spring:message code="home.other"/> </a></h4>
             </div>
             <div class="col-md-0">
                 <h4></h4>

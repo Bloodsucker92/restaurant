@@ -35,11 +35,7 @@ public class AdminRestController {
             result.put("message", "success");
             return new JSONObject(result).toString();
         } catch (ServiceException e) {
-            modelAndView.setViewName("error");
-            modelAndView.addObject("message", e.getMessage());
-            Map result = new HashMap<String, String>();
-            result.put("message", "failed");
-            return new JSONObject(result).toString();
+            return handleError(modelAndView, e);
         }
     }
 
@@ -53,12 +49,16 @@ public class AdminRestController {
             result.put("courseName", "courseName");
             return new JSONObject(result).toString();
         } catch (ServiceException e) {
-            model.setViewName("error");
-            model.addObject("message", e.getMessage());
-            Map result = new HashMap<String, String>();
-            result.put("message", "failed");
-            return new JSONObject(result).toString();
+            return handleError(model, e);
         }
+    }
+
+    public String handleError (ModelAndView model, ServiceException e) {
+        model.setViewName("error");
+        model.addObject("message", e.getMessage());
+        Map result = new HashMap<String, String>();
+        result.put("message", "failed");
+        return new JSONObject(result).toString();
     }
 
 }

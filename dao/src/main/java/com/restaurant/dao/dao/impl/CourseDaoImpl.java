@@ -50,7 +50,7 @@ public class CourseDaoImpl extends BaseDaoImpl<Course> implements CourseBaseDao 
             criteria.setFirstResult(startPage);
             criteria.setMaxResults(itemsPerPage);
             if (sortBy!=null || sortingOrder!=null) {
-                if (sortingOrder.equals("asc")) {
+                if ("asc".equals(sortingOrder)) {
                     criteria.addOrder(Order.asc("coursePrice"));
                 }
                 else {

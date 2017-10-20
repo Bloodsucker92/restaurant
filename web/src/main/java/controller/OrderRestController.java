@@ -8,7 +8,6 @@ import com.restaurant.service.interfaces.IOrderService;
 import com.restaurant.service.interfaces.IUserService;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,7 +28,7 @@ public class OrderRestController {
         try {
             Order order = orderService.getOrderById(Integer.parseInt(orderId));
             orderService.deleteItemFromOrder(Integer.parseInt(courseId), order.getId());
-            if (orderService.getOrderById(Integer.parseInt(orderId)).getCourseSet().isEmpty()) {
+            if (orderService.getOrderById(Integer.parseInt(orderId)).getCourseList().isEmpty()) {
                 orderService.delete(order);
             }
             Map result = new HashMap<String, String>();
@@ -55,8 +54,7 @@ public class OrderRestController {
             Order order = new Order();
             if (!orders.isEmpty()) {
                 order = orders.get(0);
-                Set<Course> courseSet = new HashSet<>();
-                courseList.addAll(order.getCourseSet());
+                courseList.addAll(order.getCourseList());
             }
             model.addObject("order", order);
             model.addObject("courseList", courseList);

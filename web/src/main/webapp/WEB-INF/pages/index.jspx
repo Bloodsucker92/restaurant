@@ -42,13 +42,13 @@
             <h4><a href="drinks" style="color:#FF7509">Drinks</a></h4>
         </div>
         <div class="col-md-2">
-            <h4><a href="#" style="color:#FF7509">Dessert</a></h4>
+            <h4><a href="dessert" style="color:#FF7509">Dessert</a></h4>
         </div>
         <div class="col-md-2">
-            <h4><a href="#" style="color:#FF7509">Soup</a></h4>
+            <h4><a href="soup" style="color:#FF7509">Soup</a></h4>
         </div>
         <div class="col-md-2">
-            <h4><a href="#" style="color:#FF7509">Other</a></h4>
+            <h4><a href="other" style="color:#FF7509">Other</a></h4>
         </div>
         <div class="col-md-0">
             <h4></h4>

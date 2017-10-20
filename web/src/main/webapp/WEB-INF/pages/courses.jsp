@@ -15,7 +15,7 @@
         <fmt:setBundle basename="locale_ru"/>
     </c:if>
 
-    <title><fmt:message key="login.title"/></title>
+    <title><spring:message code="course.title"/></title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/courseDisplayStyle.css">
 
 
@@ -39,7 +39,7 @@
 
 
 <div id="pizza-menu">
-    <!--Hawaiian pizza-->
+
     <div class="container">
         <div class="row">
             <c:forEach var="course" items="${courseList}" varStatus="i">
@@ -68,6 +68,15 @@
                                 </c:if>
                                 <c:if test="${courseCategory eq 'drink'}">
                                     <c:url var="courseUrl" value="/drinks/${course.id}"/>
+                                </c:if>
+                                <c:if test="${courseCategory eq 'soup'}">
+                                    <c:url var="courseUrl" value="/soup/${course.id}"/>
+                                </c:if>
+                                <c:if test="${courseCategory eq 'dessert'}">
+                                    <c:url var="courseUrl" value="/dessert/${course.id}"/>
+                                </c:if>
+                                <c:if test="${courseCategory eq 'other'}">
+                                    <c:url var="courseUrl" value="/other/${course.id}"/>
                                 </c:if>
 
                                 <form action="${courseUrl}" method="post">

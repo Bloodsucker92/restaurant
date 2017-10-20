@@ -3,13 +3,11 @@ package com.restaurant.dao.pojos;
 /* A course POJO */
 
 import org.hibernate.annotations.*;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -57,7 +55,7 @@ public class Course implements Serializable{
     @JoinColumn (name = "COURSE_CATEGORY_ID")
     private CourseCategory courseCategory;
 
-    @ManyToMany(mappedBy = "courseSet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "courseList", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<Order> orderSet = new HashSet<>();
 
     public Course() {

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional (propagation = Propagation.REQUIRES_NEW, rollbackFor = DaoException.class)
@@ -36,7 +37,7 @@ public class CourseService extends BaseService<Course> implements ICourseService
     @Override
     public List<Course> showCoursesOfCertainType(Integer courseCategoryId) throws ServiceException {
         try {
-            return courseDao.getCoursesOfCertainType(courseCategoryId);
+            return courseDao.getCoursesOfCertainType(courseCategoryId).stream().distinct().collect(Collectors.toList());
         } catch (DaoException e) {
             log.error("Error performing show courses of certain type service method", e);
             throw new ServiceException(CourseService.class, "Error performing show courses of certain type service method", e);

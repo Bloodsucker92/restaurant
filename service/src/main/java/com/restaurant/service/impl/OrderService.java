@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED, rollbackFor = DaoException.class)
@@ -54,7 +54,7 @@ public class OrderService extends BaseService<Order> implements IOrderService {
 
             Order order = new Order();
             order.setUser(user);
-            order.getCourseSet().add(course);
+            order.getCourseList().add(course);
             int orderId = orderDao.add(order);
             order.setId(orderId);
             currentOrder = order;
@@ -71,7 +71,8 @@ public class OrderService extends BaseService<Order> implements IOrderService {
         try {
             course = (Course) courseDao.get(courseId);
             currentOrder = (Order) orderDao.get(orderId);
-            currentOrder.getCourseSet().add(course);
+            currentOrder.getCourseList().add(course);
+            int quantity = Collections.frequency(currentOrder.getCourseList(), course);
             orderDao.update(currentOrder);
         } catch (DaoException e) {
             log.error("Error performing add item to current order service method", e);
@@ -85,10 +86,10 @@ public class OrderService extends BaseService<Order> implements IOrderService {
             Course courseToDelete = courseDao.get(courseIdToDelete);
             Order order = orderDao.getOrderById(orderId);
             ArrayList<Course> courses = new ArrayList<>();
-            courses.addAll(order.getCourseSet());
+            courses.addAll(order.getCourseList());
             courses.remove(courseToDelete);
-            order.getCourseSet().clear();
-            order.getCourseSet().addAll(courses);
+            order.getCourseList().clear();
+            order.getCourseList().addAll(courses);
             orderDao.update(order);
         } catch (DaoException e) {
             log.error("Error performing delete item from current order service method", e);

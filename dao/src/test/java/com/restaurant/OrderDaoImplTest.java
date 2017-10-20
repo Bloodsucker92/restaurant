@@ -16,7 +16,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @ContextConfiguration(locations = "classpath*:/beans-dao-test.xml")
@@ -40,18 +42,18 @@ public class OrderDaoImplTest {
     public void testAddUpdateAndDeleteOrder () throws DaoException {
         Course courseOne = courseBaseDao.get(1);
         Course courseTwo = courseBaseDao.get(2);
-        Set<Course> courses = new HashSet<>();
+        List<Course> courses = new ArrayList<>();
         courses.add(courseOne);
         courses.add(courseTwo);
         User user = (User) userBaseDao.getUserByLogin("user");
         Order order = new Order();
         order.setUser(user);
-        order.setCourseSet(courses);
+        order.setCourseList(courses);
         int id = orderDao.add(order);
         Assert.assertNotNull(orderDao.getOrders());
         Assert.assertEquals(new Integer(id), orderDao.getOrderById(id).getId());
         Assert.assertEquals("user", orderDao.getOrders().get(orderDao.getOrders().size()-1).getUser().getUsername());
-        Assert.assertEquals(courses, orderDao.getOrders().get(orderDao.getOrders().size()-1).getCourseSet());
+        Assert.assertEquals(courses, orderDao.getOrders().get(orderDao.getOrders().size()-1).getCourseList());
         User userTwo = (User) userBaseDao.getUserByLogin("denis");
         order.setUser(userTwo);
         orderDao.update(order);

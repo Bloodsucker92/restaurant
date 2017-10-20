@@ -36,19 +36,19 @@ public class OrderServiceTest {
         Order order = orderService.makeNewOrder(user, 1);
         Assert.assertNotNull(order);
         Assert.assertEquals("user", order.getUser().getUsername());
-        Assert.assertEquals(1, order.getCourseSet().size());
+        Assert.assertEquals(1, order.getCourseList().size());
         orderService.addItemToCurrentOrder(order.getId(), 2);
         order = orderService.getOrderById(order.getId());
-        Assert.assertEquals(2, order.getCourseSet().size());
+        Assert.assertEquals(2, order.getCourseList().size());
     }
 
     @Test
     public void testDeleteItemFromOrder () throws ServiceException {
         User user = userService.getUserByLogin("denis");
         Order order = orderService.makeNewOrder(user, 4);
-        Assert.assertEquals(1, order.getCourseSet().size());
+        Assert.assertEquals(1, order.getCourseList().size());
         orderService.deleteItemFromOrder(4, order.getId());
-        Assert.assertEquals(0, orderService.getOrderById(order.getId()).getCourseSet().size());
+        Assert.assertEquals(0, orderService.getOrderById(order.getId()).getCourseList().size());
     }
 
 

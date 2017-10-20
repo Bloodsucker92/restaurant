@@ -16,7 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping(value = {"/pizza", "/drinks"})
+@RequestMapping(value = {"/pizza", "/drinks", "/soup", "/dessert", "/other"})
 public class CourseController {
 
     @Autowired
@@ -29,6 +29,7 @@ public class CourseController {
     public String addItemToOrder(@PathVariable String courseId, ModelAndView model, HttpServletRequest request) {
         String page = "";
         try {
+            String parameter = request.getParameter("courseCategory");
             String userLoggedIn = getPrincipal();
             com.restaurant.dao.pojos.User user = userService.getUserByLogin(userLoggedIn);
             if (user.getOrderList().isEmpty()) {
@@ -37,11 +38,16 @@ public class CourseController {
                 int orderId = user.getOrderList().get(0).getId();
                 orderService.addItemToCurrentOrder(orderId, Integer.parseInt(courseId));
             }
-            String req = request.getParameter("courseCategory");
             if (request.getParameter("courseCategory").equals("pizza")) {
                 page = "redirect:/pizza";
-            } else {
+            } else if (request.getParameter("courseCategory").equals("drink")) {
                 page = "redirect:/drinks";
+            } else if (request.getParameter("courseCategory").equals("soup")) {
+                page = "redirect:/soup";
+            } else if (request.getParameter("courseCategory").equals("dessert")) {
+                page = "redirect:/dessert";
+            } else if (request.getParameter("courseCategory").equals("other")) {
+                page = "redirect:/other";
             }
         }
         catch (ServiceException e) {

@@ -25,11 +25,29 @@
 
 </head>
 <body style="background: #FFF0B1;">
-<jsp:include page="navbar.jsp"></jsp:include>
+<sec:authorize access="hasRole('ROLE_USER')">
+    <jsp:include page="userNavbar.jsp"></jsp:include>
+</sec:authorize>
+<sec:authorize access="hasRole('ROLE_ADMIN')">
+    <jsp:forward page="admin.jsp"></jsp:forward>
+</sec:authorize>
+
+<sec:authorize access="isAnonymous()">
+    <jsp:include page="navbar.jsp"></jsp:include>
+</sec:authorize>
 <div class="container">
     <div class="col-md-12">
         <div class="page-header"><h1>Oops! Something went wrong...</h1></div>
         <p><c:out value="${message}"/></p>
+        Request from ${pageContext.errorData.requestURI} is failed
+        <br/>
+        Servlet name or type: ${pageContext.errorData.servletName}
+        <br/>
+        Status code: ${pageContext.errorData.statusCode}
+        <br/>
+        Exception: ${pageContext.errorData.throwable}
+        <br>
+        Message: ${requestScope.errorMessage}
     </div>
 </div>
 

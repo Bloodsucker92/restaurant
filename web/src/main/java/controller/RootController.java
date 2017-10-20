@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/")
@@ -37,10 +38,10 @@ public class RootController {
     @Autowired
     AuthenticationTrustResolver authenticationTrustResolver;
 
-    @GetMapping (value = "error")
-    public String showErrorPage () {
-        return "error";
-    }
+//    @GetMapping (value = "error")
+//    public String showErrorPage () {
+//        return "error";
+//    }
 
 
     @RequestMapping (value = {"/", "home"}, produces = "plain/text", method = {RequestMethod.GET, RequestMethod.POST})
@@ -63,13 +64,12 @@ public class RootController {
             courseList = courseService.showCoursesOfCertainType(CourseCategoryConstants.PIZZA.getNumVal());
             model.put("courseList", courseList);
             model.put("courseCategory", courseList.get(0).getCourseCategory().getCourseCategory());
+            return "courses";
         }
         catch (ServiceException e) {
             model.addAttribute("message", e.getMessage());
             return "redirect:/error";
         }
-
-        return "courses";
     }
 
     @GetMapping(value = "/drinks")
@@ -77,6 +77,51 @@ public class RootController {
         List<Course> courseList;
         try {
             courseList = courseService.showCoursesOfCertainType(CourseCategoryConstants.DRINKS.getNumVal());
+            model.put("courseList", courseList);
+            model.put("courseCategory", courseList.get(0).getCourseCategory().getCourseCategory());
+            return "courses";
+        }
+        catch (ServiceException e) {
+            model.addAttribute("message", e.getMessage());
+            return "redirect:/error";
+        }
+    }
+
+    @RequestMapping (value = "/dessert", method = RequestMethod.GET)
+    public String showDessertPage(ModelMap model) {
+        List<Course> courseList;
+        try {
+            courseList = courseService.showCoursesOfCertainType(CourseCategoryConstants.DESSERT.getNumVal());
+            model.put("courseList", courseList);
+            model.put("courseCategory", courseList.get(0).getCourseCategory().getCourseCategory());
+        }
+        catch (ServiceException e) {
+            model.addAttribute("message", e.getMessage());
+            return "redirect:/error";
+        }
+        return "courses";
+    }
+
+    @GetMapping(value = "/soup")
+    public String showSoupPage(ModelMap model) {
+        List<Course> courseList;
+        try {
+            courseList = courseService.showCoursesOfCertainType(CourseCategoryConstants.SOUP.getNumVal());
+            model.put("courseList", courseList);
+            model.put("courseCategory", courseList.get(0).getCourseCategory().getCourseCategory());
+        }
+        catch (ServiceException e) {
+            model.addAttribute("message", e.getMessage());
+            return "redirect:/error";
+        }
+        return "courses";
+    }
+
+    @GetMapping(value = "/other")
+    public String showOtherPage(ModelMap model) {
+        List<Course> courseList;
+        try {
+            courseList = courseService.showCoursesOfCertainType(CourseCategoryConstants.OTHER.getNumVal());
             model.put("courseList", courseList);
             model.put("courseCategory", courseList.get(0).getCourseCategory().getCourseCategory());
         }
